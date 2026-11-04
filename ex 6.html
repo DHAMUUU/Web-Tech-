@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPulse | Timer Functions, Arrays & Objects Lab</title>
+    <style>
+        /* =====================================================
+   RESET & BASE STYLES
+===================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+            line-height: 1.6;
+            transition: background-color 0.5s ease;
+        }
+
+        header {
+            background: #1a1a24;
+            color: white;
+            padding: 25px 15px;
+            text-align: center;
+            border-bottom: 4px solid #ff4d4d;
+        }
+
+        header h1 {
+            font-size: clamp(2rem, 5vw, 2.6rem);
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        header h1 span {
+            color: #ff4d4d;
+        }
+
+        header p {
+            color: #ccc;
+            margin-top: 5px;
+        }
+
+        .student-tag {
+            color: #ffcc00 !important;
+            font-weight: bold;
+            margin-top: 6px !important;
+        }
+
+        /* =====================================================
+   NAVIGATION
+===================================================== */
+        nav {
+            background: #232533;
+            padding: 12px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 6px 12px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #ff4d4d;
+        }
+
+        /* =====================================================
+   SECTIONS & HERO
+===================================================== */
+        section {
+            padding: 35px 7%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1a1a24;
+            margin-bottom: 22px;
+            font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 65px 20px;
+            background: linear-gradient(rgba(26, 26, 36, 0.85), rgba(26, 26, 36, 0.85)),
+                url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=85') center/cover no-repeat;
+            color: white;
+            border-radius: 8px;
+            margin: 20px 7%;
+        }
+
+        .hero h2 {
+            color: #ffffff;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            margin-bottom: 12px;
+        }
+
+        .hero h2 span {
+            color: #ff4d4d;
+        }
+
+        .hero p {
+            color: #e0e0e0;
+            max-width: 650px;
+            margin: 0 auto 20px;
+        }
+
+        button {
+            background: #ff4d4d;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        button:hover {
+            background: #d90429;
+            transform: translateY(-1px);
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 9px 12px;
+            margin: 7px 0;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            width: 100%;
+            font: inherit;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid #ff4d4d;
+            border-color: #ff4d4d;
+        }
+
+        /* =====================================================
+   PROGRAMS & GALLERY GRIDS
+===================================================== */
+        .gallery,
+        .programs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card,
+        .program {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card h3,
+        .program h3 {
+            margin: 10px 0 8px;
+            color: #1a1a24;
+            font-size: 1.15rem;
+            border-left: 4px solid #ff4d4d;
+            padding-left: 8px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 0.92rem;
+        }
+
+        /* =====================================================
+   TABLE STYLES
+===================================================== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #1a1a24;
+            color: #ff4d4d;
+            font-size: 0.95rem;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #fdf2f2;
+        }
+
+        tbody tr:hover {
+            background: #ffe5e5;
+        }
+
+        /* =====================================================
+   SPECIAL EXERCISE 5 & 6 WIDGETS
+===================================================== */
+        #garden {
+            display: grid;
+            gap: 6px;
+            margin-top: 12px;
+            padding: 8px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border: 1px dashed #cbd5e1;
+            overflow-x: auto;
+        }
+
+        .fruit {
+            background: #ffecec;
+            padding: 10px;
+            text-align: center;
+            font-size: 26px;
+            border-radius: 6px;
+        }
+
+        #coin {
+            font-size: 60px;
+            margin: 10px;
+            line-height: 1;
+        }
+
+        /* Animated Sprint Runner Track (Experiment 6.4) */
+        #carTrack {
+            background: #e2e8f0;
+            height: 80px;
+            position: relative;
+            overflow: hidden;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px dashed #94a3b8;
+        }
+
+        #car {
+            position: absolute;
+            left: 0;
+            top: 12px;
+            font-size: 42px;
+            transition: left 0.02s linear;
+        }
+
+        .result {
+            color: #ff4d4d;
+            font-weight: bold;
+            margin-top: 10px;
+            word-break: break-word;
+            background: #fafafa;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #eee;
+            min-height: 38px;
+            font-size: 0.93rem;
+        }
+
+        #clock {
+            color: #ff4d4d;
+            font-size: 2.4rem;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            margin: 8px 0;
+        }
+
+        #fontText {
+            padding: 12px;
+            background: #fdf2f2;
+            border-left: 4px solid #ff4d4d;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: font-size 0.2s ease;
+        }
+
+        /* =====================================================
+   FOOTER
+===================================================== */
+        footer {
+            background: #1a1a24;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            margin-top: 35px;
+            border-top: 4px solid #ff4d4d;
+        }
+
+        footer p {
+            margin: 5px;
+            font-size: 0.95rem;
+        }
+
+        /* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+        @media (max-width: 600px) {
+            nav a {
+                display: inline-block;
+                margin: 5px 8px;
+                font-size: 0.88rem;
+            }
+
+            .hero {
+                margin: 15px 3%;
+                padding: 40px 15px;
+            }
+
+            .hero h2 {
+                font-size: 22px;
+            }
+
+            section {
+                padding: 25px 4%;
+            }
+
+            #clock {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+     HEADER
+===================================================== -->
+    <header>
+        <h1>FitPulse <span>Training Club</span></h1>
+        <p>Explore Physical Mastery, Athletic Strength &amp; Modern Web Technology</p>
+        <p class="student-tag">Web Technology Lab &mdash; DIVAKARAN M | URK24CS1200</p>
+    </header>
+
+    <!-- =====================================================
+     NAVIGATION
+===================================================== -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#gallery">Programs Gallery</a>
+        <a href="#artists">Master Coaches</a>
+        <a href="#programs">Experiment 5</a>
+        <a href="#exp6">Experiment 6</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- =====================================================
+     HOME / HERO SECTION
+===================================================== -->
+    <section class="hero" id="home">
+        <h2>Welcome to <span>FitPulse Training Club</span></h2>
+        <p>Discover personalized strength protocols, biomechanics research, and interactive JavaScript web
+            demonstrations.</p>
+        <button onclick="alert('Welcome to FitPulse Training Club! - Divakaran M | URK24CS1200')">Explore Now</button>
+    </section>
+
+    <!-- =====================================================
+     ABOUT SECTION
+===================================================== -->
+    <section id="about">
+        <h2>About FitPulse</h2>
+        <div
+            style="background: white; padding: 25px; border-radius: 10px; max-width: 900px; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+            <p>
+                FitPulse Training Club is a high-performance athletic platform designed to explore diverse training
+                disciplines.
+                Our facility unites progressive barbell overload, functional HIIT conditioning, athletic mobility,
+                sports nutrition,
+                and digital health telemetry to support total physical transformation.
+            </p>
+        </div>
+    </section>
+
+    <!-- =====================================================
+     PROGRAMS GALLERY WITH LIVE SEARCH FILTER
+===================================================== -->
+    <section id="gallery">
+        <h2>Featured Training Programs</h2>
+        <input type="text" id="searchArt" placeholder="Search training programs by keyword..."
+            style="max-width: 600px; margin: 0 auto 20px; display: block;">
+        <div class="gallery" id="galleryItems">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80"
+                    alt="Strength training">
+                <h3>Hypertrophy &amp; Strength</h3>
+                <p>Compound barbell lifts and progressive tension overload.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80"
+                    alt="HIIT training">
+                <h3>Functional Turf HIIT</h3>
+                <p>Sled drives, sprint intervals, and kettlebell complexes.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=500&q=80"
+                    alt="Mobility yoga">
+                <h3>Athletic Mobility Flow</h3>
+                <p>Joint mobilization, spine decompression, and active recovery.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?auto=format&fit=crop&w=500&q=80"
+                    alt="Powerlifting">
+                <h3>Powerlifting Specialized</h3>
+                <p>Calibrated squat, bench press, and deadlift peaking.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=500&q=80"
+                    alt="Cardio endurance">
+                <h3>Endurance Aerobics</h3>
+                <p>Vo2 Max conditioning and aerobic base building.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=500&q=80"
+                    alt="Olympic weightlifting">
+                <h3>Olympic Weightlifting</h3>
+                <p>Snatch, clean and jerk barbell velocity technique.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================
+     COACHES ROSTER TABLE
+===================================================== -->
+    <section id="artists">
+        <h2>Master Coaches Roster</h2>
+        <div style="max-width: 900px; margin: auto; overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coach Name</th>
+                        <th>Training Specialization</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Marcus Vance</td>
+                        <td>Powerlifting &amp; Hypertrophy</td>
+                    </tr>
+                    <tr>
+                        <td>Elena Rostova</td>
+                        <td>Olympic Lifting &amp; Mobility</td>
+                    </tr>
+                    <tr>
+                        <td>David Miller</td>
+                        <td>Athletic Speed &amp; Turf Conditioning</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- =====================================================
+     EXPERIMENT 5 - DOM ELEMENTS & EVENTS
+===================================================== -->
+    <section id="programs">
+        <h2>Experiment 5 &ndash; DOM Elements and Events</h2>
+        <div class="programs">
+
+            <!-- 1 Shortest and Longest Word -->
+            <div class="program">
+                <h3>1. Shortest and Longest Word</h3>
+                <input type="text" id="sentence" placeholder="Enter a fitness sentence">
+                <button onclick="findWords()">Find Words</button>
+                <p id="wordResult" class="result"></p>
+            </div>
+
+            <!-- 2 BMI Calculator -->
+            <div class="program">
+                <h3>2. BMI Calculator</h3>
+                <input type="number" id="weight" placeholder="Weight in kg (e.g. 70)" step="any">
+                <input type="number" id="height" placeholder="Height in metres (e.g. 1.75)" step="any">
+                <button onclick="calculateBMI()">Calculate BMI</button>
+                <p id="bmiResult" class="result"></p>
+            </div>
+
+            <!-- 3 Fruit Farm / Nutrition Grid -->
+            <div class="program">
+                <h3>3. Fruit Farm (Nutrition Grid)</h3>
+                <input type="number" id="rows" placeholder="Number of rows (1-8)" min="1" max="8">
+                <input type="number" id="cols" placeholder="Number of columns (1-8)" min="1" max="8">
+                <button onclick="grow()">Grow Fruits</button>
+                <div id="garden"></div>
+            </div>
+
+            <!-- 4 Currency Converter -->
+            <div class="program">
+                <h3>4. Currency Converter</h3>
+                <input type="number" id="amount" placeholder="Enter amount">
+                <select id="currencyFrom">
+                    <option value="INR">INR (Indian Rupee)</option>
+                    <option value="USD">USD (US Dollar)</option>
+                </select>
+                <select id="currencyTo">
+                    <option value="USD">USD (US Dollar)</option>
+                    <option value="INR">INR (Indian Rupee)</option>
+                </select>
+                <button onclick="convert()">Convert</button>
+                <p id="currencyResult" class="result"></p>
+            </div>
+
+            <!-- 5 Coin Flip -->
+            <div class="program">
+                <h3>5. Coin Flip (Workout Decider)</h3>
+                <div id="coin" style="text-align:center;">🪙</div>
+                <button onclick="flipCoin()" style="width: 100%;">Flip Coin</button>
+                <p id="coinResult" class="result"></p>
+                <p style="margin-top: 6px;">Heads: <span id="heads" style="font-weight:bold; color:#ff4d4d;">0</span> |
+                    Tails: <span id="tails" style="font-weight:bold; color:#1a1a24;">0</span></p>
+            </div>
+
+            <!-- 6 Cake Order -->
+            <div class="program">
+                <h3>6. Birthday Cake Order (Bakery)</h3>
+                <label style="font-size:0.88rem; font-weight:bold;">Cake Size</label>
+                <select id="cakeSize">
+                    <option value="100">1/2 Kg - Rs.100</option>
+                    <option value="200">1 Kg - Rs.200</option>
+                    <option value="400">2 Kg - Rs.400</option>
+                </select>
+                <label style="font-size:0.88rem; font-weight:bold;">Quantity</label>
+                <input type="number" id="cakeQty" value="1" min="1">
+                <label style="font-size:0.88rem; font-weight:bold;">Tip Percentage</label>
+                <select id="tip">
+                    <option value="10">10%</option>
+                    <option value="15" selected>15%</option>
+                    <option value="20">20%</option>
+                </select>
+                <button onclick="calculateOrder()">Calculate Bill</button>
+                <p id="cakeResult" class="result"></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =====================================================
+     EXPERIMENT 6 - TIMER FUNCTIONS AND ARRAYS
+===================================================== -->
+    <section id="exp6">
+        <h2>Experiment 6 &ndash; JavaScript Timer Functions and Arrays</h2>
+        <div class="programs">
+
+            <!-- 1 Digital Clock -->
+            <div class="program" style="text-align: center;">
+                <h3>1. Digital Workout Clock</h3>
+                <h2 id="clock">00:00:00</h2>
+                <p id="clockDate" style="color: #666; font-weight: bold;"></p>
+            </div>
+
+            <!-- 2 Dynamic Background -->
+            <div class="program" id="backgroundBox">
+                <h3>2. Dynamic Ambient Lighting</h3>
+                <p>Background changes randomly every 30 seconds.</p>
+                <button onclick="changeBackground()">Change Colour</button>
+                <button onclick="stopBackground()" style="background:#555;">Stop Timer</button>
+                <p id="bgResult" class="result"></p>
+            </div>
+
+            <!-- 3 Font Size -->
+            <div class="program">
+                <h3>3. Mouse Events - Font Size</h3>
+                <p id="fontText" onmouseover="incSize()" onmouseout="decSize()">
+                    &raquo; Move your mouse over this fitness coaching tip to increase font size.
+                </p>
+            </div>
+
+            <!-- 4 Moving Runner / Sprint Track -->
+            <div class="program">
+                <h3>4. Sprint Runner using Timer</h3>
+                <div id="carTrack">
+                    <div id="car">&#127939;</div>
+                </div>
+                <button onclick="startCar()">Move</button>
+                <button onclick="stopCar()" style="background:#555;">Stop</button>
+                <button onclick="resetCar()" style="background:#222;">Reset</button>
+            </div>
+
+            <!-- 5 Member Array of Objects -->
+            <div class="program">
+                <h3>5. Member Array of Objects</h3>
+                <button onclick="showStudents()">Display Members</button>
+                <p id="studentResult" class="result"></p>
+            </div>
+
+            <!-- 6 Date Object -->
+            <div class="program">
+                <h3>6. Date Object Methods</h3>
+                <button onclick="showDate()">Display Date Details</button>
+                <p id="dateResult" class="result"></p>
+            </div>
+
+            <!-- 7 Class and Object -->
+            <div class="program">
+                <h3>7. JavaScript Class and Object</h3>
+                <button onclick="showCar()">Display Object Details</button>
+                <p id="classResult" class="result"></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =====================================================
+     CONTACT SECTION WITH FORM EVENTS
+===================================================== -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <div class="program" style="max-width: 650px; margin: auto;">
+            <form id="contactForm">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="email" id="email" placeholder="Your Email" required>
+                <input type="tel" id="phone" placeholder="Phone Number">
+                <input type="date" id="date">
+                <input type="number" id="members" placeholder="Number of Members / Sessions">
+                <select id="art">
+                    <option value="">Select Training Program</option>
+                    <option>Hypertrophy &amp; Strength</option>
+                    <option>Functional Turf HIIT</option>
+                    <option>Athletic Mobility Flow</option>
+                    <option>Powerlifting Specialized</option>
+                </select>
+                <textarea id="message" placeholder="Your Message / Goals"></textarea>
+                <button type="submit" style="width: 100%;">Submit</button>
+                <p id="formResult" class="result"></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- =====================================================
+     FOOTER
+===================================================== -->
+    <footer>
+        <p>FitPulse Training Club &bull; Web Technology Lab</p>
+        <p>Done by <strong>DIVAKARAN M | URK24CS1200</strong></p>
+        <p>&copy; 2026 All Rights Reserved</p>
+    </footer>
+
+    <!-- =====================================================
+     JAVASCRIPT LOGIC
+===================================================== -->
+    <script>
+        /* ================= EXPERIMENT 5 ================= */
+
+        /* 1. Shortest and Longest Word */
+        function findWords() {
+            let sentence = document.getElementById("sentence").value;
+            let words = sentence.trim().split(/\s+/);
+            if (!sentence.trim()) {
+                document.getElementById("wordResult").innerHTML = "Please enter a sentence.";
+                return;
+            }
+            let shortest = words[0];
+            let longest = words[0];
+            for (let word of words) {
+                let clean = word.replace(/[.,!?;:()]/g, "");
+                if (clean.length < shortest.replace(/[.,!?;:()]/g, "").length) shortest = clean;
+                if (clean.length > longest.replace(/[.,!?;:()]/g, "").length) longest = clean;
+            }
+            document.getElementById("wordResult").innerHTML =
+                "Shortest: <strong>" + shortest + "</strong> (" + shortest.length + " chars)<br>" +
+                "Longest: <strong>" + longest + "</strong> (" + longest.length + " chars)";
+        }
+
+        /* 2. BMI Calculator */
+        function calculateBMI() {
+            let w = Number(document.getElementById("weight").value);
+            let h = Number(document.getElementById("height").value);
+            if (w <= 0 || h <= 0) {
+                document.getElementById("bmiResult").innerHTML = "Enter valid weight and height.";
+                return;
+            }
+            let bmi = w / (h * h);
+            let category;
+            if (bmi < 18.5) category = "Underweight";
+            else if (bmi < 25) category = "Normal (Healthy)";
+            else if (bmi < 30) category = "Overweight";
+            else category = "Obese";
+            document.getElementById("bmiResult").innerHTML =
+                "BMI: <strong>" + bmi.toFixed(2) + "</strong><br>Category: <strong>" + category + "</strong>";
+        }
+
+        /* 3. Fruit Farm */
+        function grow() {
+            let r = Number(document.getElementById("rows").value);
+            let c = Number(document.getElementById("cols").value);
+            let garden = document.getElementById("garden");
+            if (r < 1 || c < 1 || r * c > 100) {
+                garden.innerHTML = "Enter valid rows and columns (maximum 100 cells).";
+                return;
+            }
+            garden.innerHTML = "";
+            garden.style.gridTemplateColumns = `repeat(${c}, 1fr)`;
+            const fruits = ["🍎", "🍊", "🍌", "🍓", "🥝", "🍇"];
+            for (let i = 0; i < r * c; i++) {
+                let fruit = document.createElement("div");
+                fruit.className = "fruit";
+                fruit.innerHTML = fruits[Math.floor(Math.random() * fruits.length)];
+                garden.appendChild(fruit);
+            }
+        }
+
+        /* 4. Currency Converter */
+        function convert() {
+            let amount = Number(document.getElementById("amount").value);
+            let from = document.getElementById("currencyFrom").value;
+            let to = document.getElementById("currencyTo").value;
+            let result;
+            if (amount < 0 || !Number.isFinite(amount)) {
+                document.getElementById("currencyResult").innerHTML = "Enter a valid amount.";
+                return;
+            }
+            if (from === to) result = amount;
+            else if (from === "INR") result = amount * 0.015;
+            else result = amount * 67.12;
+            document.getElementById("currencyResult").innerHTML =
+                "Converted Amount: <strong>" + result.toFixed(2) + " " + to + "</strong>";
+        }
+
+        /* 5. Coin Flip */
+        let heads = 0;
+        let tails = 0;
+        function flipCoin() {
+            let result = Math.random() < 0.5 ? "Heads" : "Tails";
+            document.getElementById("coin").innerHTML = result === "Heads" ? "🪙" : "🔘";
+            if (result === "Heads") heads++;
+            else tails++;
+            document.getElementById("coinResult").innerHTML = "Result: <strong>" + result + "</strong>";
+            document.getElementById("heads").innerHTML = heads;
+            document.getElementById("tails").innerHTML = tails;
+        }
+
+        /* 6. Birthday Cake Order */
+        function calculateOrder() {
+            let price = Number(document.getElementById("cakeSize").value);
+            let qty = Number(document.getElementById("cakeQty").value);
+            let tipPercent = Number(document.getElementById("tip").value);
+            if (qty < 1 || !Number.isInteger(qty)) {
+                document.getElementById("cakeResult").innerHTML = "Enter a valid quantity.";
+                return;
+            }
+            let cost = price * qty;
+            let tax = cost * 0.09;
+            let tip = (cost + tax) * tipPercent / 100;
+            let total = cost + tax + tip;
+            document.getElementById("cakeResult").innerHTML =
+                "Cake Cost: Rs." + cost.toFixed(2) +
+                "<br>Tax (9%): Rs." + tax.toFixed(2) +
+                "<br>Tip (" + tipPercent + "%): Rs." + tip.toFixed(2) +
+                "<br><strong>Total: Rs." + total.toFixed(2) + "</strong>";
+        }
+
+        /* DOM EVENTS FOR SEARCH, CARDS, INPUTS & FORM */
+        document.addEventListener("DOMContentLoaded", function () {
+            // Keyup event - Gallery search
+            document.getElementById("searchArt").addEventListener("keyup", function () {
+                let value = this.value.toLowerCase();
+                let cards = document.querySelectorAll("#galleryItems .card");
+                cards.forEach(function (card) {
+                    card.style.display = card.innerText.toLowerCase().includes(value) ? "" : "none";
+                });
+            });
+
+            // Click event - Gallery cards
+            document.querySelectorAll(".card").forEach(function (card) {
+                card.addEventListener("click", function () {
+                    alert("Selected Program: " + this.querySelector("h3").innerText);
+                });
+                // Mouseover and mouseout events
+                card.addEventListener("mouseover", function () {
+                    this.style.transform = "scale(1.03)";
+                });
+                card.addEventListener("mouseout", function () {
+                    this.style.transform = "scale(1)";
+                });
+            });
+
+            // Focus and blur events
+            document.getElementById("name").addEventListener("focus", function () {
+                this.style.background = "#fff0f0";
+            });
+            document.getElementById("name").addEventListener("blur", function () {
+                this.style.background = "white";
+            });
+
+            // Change event
+            document.getElementById("art").addEventListener("change", function () {
+                console.log("Selected Program: " + this.value);
+            });
+
+            // Submit event
+            document.getElementById("contactForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                document.getElementById("formResult").innerHTML =
+                    "Thank you, <strong>" + document.getElementById("name").value + "</strong>! Your inquiry has been submitted successfully.";
+            });
+        });
+
+        /* ================= EXPERIMENT 6 ================= */
+
+        /* 1. Digital Clock - Date and setInterval */
+        function displayClock() {
+            let now = new Date();
+            let h = String(now.getHours()).padStart(2, "0");
+            let m = String(now.getMinutes()).padStart(2, "0");
+            let s = String(now.getSeconds()).padStart(2, "0");
+            document.getElementById("clock").innerHTML = h + ":" + m + ":" + s;
+            document.getElementById("clockDate").innerHTML = now.toDateString();
+        }
+        displayClock();
+        setInterval(displayClock, 1000);
+
+        /* 2. Dynamic Background - setInterval and clearInterval */
+        function changeBackground() {
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256);
+            document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            document.getElementById("bgResult").innerHTML = `Current Background: RGB(${r}, ${g}, ${b})`;
+        }
+        let bgTimer = setInterval(changeBackground, 30000);
+
+        function stopBackground() {
+            clearInterval(bgTimer);
+            document.getElementById("bgResult").innerHTML = "Background timer stopped.";
+        }
+
+        /* 3. Mouse Events - Increase and Decrease Font Size */
+        let fontSize = 16;
+        function incSize() {
+            fontSize += 2;
+            document.getElementById("fontText").style.fontSize = fontSize + "px";
+        }
+        function decSize() {
+            fontSize = 16;
+            document.getElementById("fontText").style.fontSize = fontSize + "px";
+        }
+
+        /* 4. Moving Runner / Sprint Track - setTimeout and clearTimeout */
+        let carPosition = 0;
+        let carTimer;
+        function moveCar() {
+            const trackWidth = document.getElementById("carTrack").clientWidth - 50;
+            if (carPosition < trackWidth) {
+                carPosition += 2;
+                document.getElementById("car").style.left = carPosition + "px";
+                carTimer = setTimeout(moveCar, 20);
+            }
+        }
+        function startCar() {
+            clearTimeout(carTimer);
+            moveCar();
+        }
+        function stopCar() {
+            clearTimeout(carTimer);
+        }
+        function resetCar() {
+            clearTimeout(carTimer);
+            carPosition = 0;
+            document.getElementById("car").style.left = "0px";
+        }
+
+        /* 5. Array of Member / Student Objects */
+        let students = [
+            { name: "Divakaran M", regno: "URK24CS1200", year: 2007 },
+            { name: "John Miller", regno: "URK24CS1201", year: 1999 },
+            { name: "David Vance", regno: "URK24CS1202", year: 2002 }
+        ];
+
+        function showStudents() {
+            let output = "";
+            students.forEach(function (student) {
+                output += "<strong>" + student.name + "</strong> (" + student.regno + ")";
+                if (student.year < 2000) {
+                    output += " &mdash; <span style='color:#ff4d4d;'>Senior Division (Born before 2000)</span><br>";
+                } else {
+                    output += " &mdash; <span style='color:#0056b3;'>Junior Division (Born after 2000)</span><br>";
+                }
+            });
+            document.getElementById("studentResult").innerHTML = output;
+        }
+
+        /* 6. Date Object Methods */
+        function showDate() {
+            let d = new Date();
+            document.getElementById("dateResult").innerHTML =
+                "<strong>Date:</strong> " + d.getDate() + "<br>" +
+                "<strong>Day:</strong> " + d.getDay() + " (0=Sun, 6=Sat)<br>" +
+                "<strong>Month:</strong> " + (d.getMonth() + 1) + "<br>" +
+                "<strong>Year:</strong> " + d.getFullYear() + "<br>" +
+                "<strong>Hours:</strong> " + d.getHours() + "<br>" +
+                "<strong>Minutes:</strong> " + d.getMinutes() + "<br>" +
+                "<strong>Seconds:</strong> " + d.getSeconds() + "<br>" +
+                "<strong>Milliseconds:</strong> " + d.getMilliseconds() + "<br>" +
+                "<strong>Time (Timestamp):</strong> " + d.getTime() + "<br>" +
+                "<strong>String Format:</strong> " + d.toString();
+        }
+
+        /* 7. Class and Object */
+        class Athlete {
+            constructor(name) {
+                this.name = name;
+            }
+            present() {
+                return "FitPulse Certified Athlete: <strong>" + this.name + "</strong> | Tier: Platinum Performance";
+            }
+        }
+
+        // Retaining function name showCar() for strict lab compatibility
+        function showCar() {
+            let myAthlete = new Athlete("Divakaran M (URK24CS1200)");
+            document.getElementById("classResult").innerHTML = myAthlete.present();
+        }
+    </script>
+
+</body>
+
+</html>
