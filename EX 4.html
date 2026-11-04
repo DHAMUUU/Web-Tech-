@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPulse | Webpage Design Using Advanced CSS3</title>
+    <style>
+        /* =====================================================
+   RESET & BASE STYLES
+===================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* =====================================================
+   HEADER
+===================================================== */
+        header {
+            background: #1a1a24;
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+            /* CONCEPT 1: ROUNDED CORNERS */
+            border-radius: 15px 50px 30px 5px;
+            border-bottom: 4px solid #ff4d4d;
+        }
+
+        header h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: clamp(32px, 6vw, 54px);
+            color: #ff4d4d;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 16px;
+            margin-top: 5px;
+            color: #e0e0e0;
+        }
+
+        /* =====================================================
+   NAVIGATION
+===================================================== */
+        nav {
+            background: #232533;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            list-style: none;
+        }
+
+        nav li a {
+            display: block;
+            color: white;
+            font-weight: bold;
+            padding: 15px 17px;
+            transition: all 0.3s ease;
+        }
+
+        nav li a:hover {
+            background: #1a1a24;
+            color: #ff4d4d;
+        }
+
+        /* =====================================================
+   MAIN & GENERAL SECTIONS
+===================================================== */
+        main {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        section {
+            padding: 60px 6%;
+        }
+
+        section>h2 {
+            text-align: center;
+            color: #1a1a24;
+            font-size: clamp(28px, 5vw, 42px);
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        section>h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #ff4d4d;
+            margin: 8px auto 0;
+            border-radius: 2px;
+        }
+
+        /* =====================================================
+   HERO SECTION
+===================================================== */
+        .hero {
+            text-align: center;
+            padding: 65px 20px;
+            /* CONCEPT 1: ROUNDED CORNERS */
+            border-radius: 15px 50px 30px 5px;
+            /* CONCEPT 3: MULTIPLE BACKGROUNDS */
+            background-image:
+                radial-gradient(circle at 90% 15%,
+                    rgba(255, 77, 77, 0.4) 0 70px,
+                    transparent 71px),
+                linear-gradient(135deg,
+                    #e9ecf0,
+                    #d5dbe2);
+            background-position:
+                right top,
+                left top;
+            background-repeat:
+                no-repeat,
+                no-repeat;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .hero h2 {
+            color: #1a1a24;
+            font-size: clamp(32px, 6vw, 48px);
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            max-width: 800px;
+            margin: auto;
+            font-size: 17px;
+            color: #555;
+        }
+
+        .hero img {
+            width: 90%;
+            max-width: 850px;
+            height: 340px;
+            object-fit: cover;
+            margin: 25px auto;
+            border-radius: 15px 50px 30px 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #ff4d4d;
+            color: white;
+            font-weight: bold;
+            border-radius: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .button:hover {
+            background: #e03434;
+            transform: translateY(-2px);
+        }
+
+        /* =====================================================
+   ABOUT SECTION
+===================================================== */
+        #about {
+            /* CONCEPT 4: BACKGROUND SIZE & POSITION */
+            background-image: url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80");
+            background-size: 220px 160px;
+            background-position: right bottom;
+            background-repeat: no-repeat;
+        }
+
+        .about-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        /* =====================================================
+   PROGRAMS / GALLERY WITH BORDER IMAGE
+===================================================== */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .card {
+            flex: 1 1 300px;
+            max-width: 350px;
+            background: white;
+            padding: 15px;
+            text-align: center;
+            /* CONCEPT 2: BORDER IMAGE */
+            border: 12px solid transparent;
+            border-image: linear-gradient(45deg,
+                    #ff4d4d,
+                    #232533,
+                    #d90429) 30 round;
+            /* CONCEPT 1: ROUNDED CORNERS */
+            border-radius: 15px 50px 30px 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        }
+
+        .card>img:first-child {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card h3 {
+            color: #1a1a24;
+            margin: 12px 0 6px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* CONCEPT 6: ADJACENT SIBLING SELECTOR (+) */
+        .itemImg {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            opacity: 0.2;
+            border-radius: 8px;
+            margin: 6px auto;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        /* The image immediately after .itemName changes on hover */
+        .itemName:hover+.itemImg {
+            opacity: 1;
+            transform: scale(1.04);
+        }
+
+        .card p {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #ffe8e8;
+            color: #d90429;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+
+        /* =====================================================
+   COACHES TABLE WITH NTH-CHILD
+===================================================== */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        #artistsTable {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        #artistsTable th,
+        #artistsTable td {
+            padding: 13px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        #artistsTable th {
+            background: #1a1a24;
+            color: #ff4d4d;
+            font-size: 15px;
+        }
+
+        /* CONCEPT 7: NTH-CHILD SELECTORS */
+        #artistsTable tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        #artistsTable tr:nth-child(even) {
+            background-color: #ffecec;
+        }
+
+        #artistsTable tr:hover {
+            background-color: #ffd4d4;
+        }
+
+        /* =====================================================
+   LISTS & FACILITY
+===================================================== */
+        .lists {
+            background: white;
+            padding: 30px;
+            border-radius: 15px 50px 30px 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .lists h3 {
+            color: #1a1a24;
+            margin-top: 15px;
+            border-left: 4px solid #ff4d4d;
+            padding-left: 8px;
+        }
+
+        ol,
+        ul,
+        dl {
+            margin: 15px 0 15px 30px;
+        }
+
+        dt {
+            color: #1a1a24;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        dd {
+            margin-left: 20px;
+            color: #555;
+        }
+
+        /* =====================================================
+   ASIDE
+===================================================== */
+        aside {
+            background: #ffe8e8;
+            padding: 25px;
+            margin: 20px 6%;
+            border-left: 5px solid #ff4d4d;
+            border-radius: 15px 50px 30px 5px;
+        }
+
+        aside h3 {
+            color: #d90429;
+            margin-bottom: 8px;
+        }
+
+        /* =====================================================
+   ADVANCED CSS3 SHOWCASE SECTION
+===================================================== */
+        #showcase {
+            background: #eef2f5;
+        }
+
+        .showcase-intro {
+            max-width: 800px;
+            margin: 0 auto 35px;
+            text-align: center;
+        }
+
+        .showcase-grid {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .showcase-card {
+            background: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-height: 250px;
+        }
+
+        .showcase-card h3 {
+            color: #1a1a24;
+            margin: 10px 0 15px;
+        }
+
+        .concept-label {
+            display: inline-block;
+            background: #ff4d4d;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* SHOWCASE 1: ROUNDED CORNERS */
+        .demo-rounded {
+            width: 190px;
+            height: 100px;
+            margin: 20px auto;
+            background: #1a1a24;
+            color: #ff4d4d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            /* ROUNDED CORNERS */
+            border-radius: 15px 50px 30px 5px;
+        }
+
+        /* SHOWCASE 2: BORDER IMAGE */
+        .demo-border {
+            width: 190px;
+            height: 100px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            font-weight: bold;
+            color: #1a1a24;
+            /* BORDER IMAGE */
+            border: 15px solid transparent;
+            border-image: linear-gradient(45deg,
+                    #ff4d4d,
+                    #232533,
+                    #d90429) 30 round;
+        }
+
+        /* SHOWCASE 3: MULTIPLE BACKGROUNDS */
+        .demo-background {
+            width: 230px;
+            height: 120px;
+            margin: 20px auto;
+            /* MULTIPLE BACKGROUNDS */
+            background-image:
+                radial-gradient(circle at 25% 25%,
+                    white 0 20px,
+                    transparent 21px),
+                radial-gradient(circle at 75% 70%,
+                    #ff758f 0 30px,
+                    transparent 31px),
+                linear-gradient(135deg,
+                    #1a1a24,
+                    #ff4d4d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 15px;
+        }
+
+        /* SHOWCASE 4: BACKGROUND SIZE */
+        .demo-size {
+            width: 230px;
+            height: 120px;
+            margin: 20px auto;
+            /* BACKGROUND SIZE */
+            background-image: url("https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=300&q=80");
+            background-size: 80px 60px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #ffe8e8;
+            border: 2px solid #ff4d4d;
+            border-radius: 10px;
+        }
+
+        /* SHOWCASE 5: FORM PSEUDO CLASSES */
+        .demo-form {
+            max-width: 280px;
+            margin: 20px auto;
+        }
+
+        .demo-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #aaa;
+            border-radius: 5px;
+        }
+
+        /* :REQUIRED */
+        .demo-form input:required {
+            border: 3px solid #0056b3;
+            background: #fffae6;
+        }
+
+        /* :FOCUS */
+        .demo-form input:focus {
+            outline: none;
+            border: 3px solid #ff4d4d;
+            background: #e9ffe9;
+        }
+
+        /* :VALID */
+        .demo-form input:valid {
+            color: #0056b3;
+        }
+
+        /* :INVALID */
+        .demo-form input:invalid {
+            color: #d90429;
+        }
+
+        /* SHOWCASE 6: ADJACENT SIBLING */
+        .demo-sibling {
+            margin: 20px auto;
+        }
+
+        .demo-sibling h4 {
+            color: #ff4d4d;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .demo-sibling h4:hover+img {
+            opacity: 1;
+            transform: scale(1.08);
+        }
+
+        .demo-sibling img {
+            width: 160px;
+            height: 95px;
+            object-fit: cover;
+            margin: auto;
+            opacity: 0.2;
+            border-radius: 8px;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        /* SHOWCASE 7: NTH-CHILD */
+        .demo-table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        .demo-table td {
+            padding: 9px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+        }
+
+        /* ODD */
+        .demo-table tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        /* EVEN */
+        .demo-table tr:nth-child(even) {
+            background-color: #ffe6e6;
+        }
+
+        /* =====================================================
+   REGISTRATION FORM WITH FORM PSEUDO-CLASSES
+===================================================== */
+        #registration {
+            background: #eaeef2;
+        }
+
+        .form-box {
+            max-width: 750px;
+            margin: auto;
+            padding: 35px;
+            background: white;
+            border-radius: 15px 50px 30px 5px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #1a1a24;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .form-box input[type="text"],
+        .form-box input[type="email"],
+        .form-box input[type="password"],
+        .form-box input[type="number"],
+        .form-box input[type="date"],
+        .form-box select,
+        .form-box textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        .form-box textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        /* FORM PSEUDO-CLASSES */
+        .form-box input:focus,
+        .form-box select:focus,
+        .form-box textarea:focus {
+            outline: none;
+            border: 3px solid #ff4d4d;
+            background: #e9ffe9;
+        }
+
+        .form-box input:required,
+        .form-box select:required,
+        .form-box textarea:required {
+            border: 3px solid #0056b3;
+            background: #fffae6;
+        }
+
+        .form-box input:valid,
+        .form-box select:valid,
+        .form-box textarea:valid {
+            color: #0056b3;
+        }
+
+        .form-box input:invalid,
+        .form-box select:invalid,
+        .form-box textarea:invalid {
+            color: #d90429;
+        }
+
+        /* FORM OPTIONS */
+        .choice {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .choice label {
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: auto !important;
+            accent-color: #ff4d4d;
+        }
+
+        input[type="color"] {
+            width: 70px;
+            height: 45px;
+            cursor: pointer;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: #ff4d4d;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px dashed #aaa;
+        }
+
+        /* BUTTONS */
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .buttons input {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .submit {
+            background: #ff4d4d;
+        }
+
+        .reset {
+            background: #555;
+        }
+
+        .buttons input:hover {
+            opacity: 0.85;
+        }
+
+        /* =====================================================
+   CONTACT SECTION
+===================================================== */
+        .contact {
+            text-align: center;
+        }
+
+        .contact a {
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        /* =====================================================
+   FOOTER
+===================================================== */
+        footer {
+            background: #1a1a24;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 4px solid #ff4d4d;
+        }
+
+        footer h3 {
+            color: #ff4d4d;
+            margin-bottom: 8px;
+        }
+
+        /* =====================================================
+   RESPONSIVE DESIGN & MEDIA QUERIES
+===================================================== */
+        @media screen and (max-width: 900px) {
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                flex: 1 1 45%;
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            header {
+                padding: 25px 15px;
+            }
+
+            header h1 {
+                font-size: 36px;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav li {
+                width: 100%;
+                text-align: center;
+            }
+
+            nav li a {
+                padding: 11px;
+            }
+
+            section {
+                padding: 45px 20px;
+            }
+
+            .hero {
+                padding: 45px 15px;
+            }
+
+            .hero img {
+                height: 220px;
+                width: 100%;
+            }
+
+            .gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .form-box {
+                padding: 25px 18px;
+            }
+
+            .choice {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* SMALL MOBILE */
+        @media screen and (max-width: 480px) {
+            header h1 {
+                font-size: 30px;
+            }
+
+            header p {
+                font-size: 14px;
+            }
+
+            .hero h2 {
+                font-size: 30px;
+            }
+
+            .showcase-card {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+     HEADER
+===================================================== -->
+    <header id="home">
+        <h1>FitPulse Training Club</h1>
+        <p>Transform Your Body &bull; Build Real Strength &bull; Live Healthy</p>
+        <p>Designed by Divakaran M | URK24CS1200</p>
+    </header>
+
+    <!-- =====================================================
+     NAVIGATION
+===================================================== -->
+    <nav>
+        <div class="nav-container">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#gallery">Programs</a></li>
+                <li><a href="#artists">Coaches</a></li>
+                <li><a href="#showcase">CSS3 Showcase</a></li>
+                <li><a href="#registration">Registration</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- =====================================================
+     HERO SECTION
+===================================================== -->
+        <section class="hero">
+            <h2>Welcome to FitPulse Training Club</h2>
+            <p>
+                Explore personalized strength programs, high-intensity functional turf workouts,
+                athletic conditioning, and certified expert guidance.
+            </p>
+            <br>
+            <a href="#gallery" class="button">Explore Programs</a>
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80"
+                alt="FitPulse Gym Training">
+        </section>
+
+        <!-- =====================================================
+     ABOUT SECTION
+===================================================== -->
+        <section id="about">
+            <h2>About FitPulse</h2>
+            <div class="about-content">
+                <p>
+                    Physical training is an empowering discipline that cultivates athletic stamina,
+                    resilience, mental focus, and cardiovascular health. FitPulse Club unites modern exercise
+                    science with dedicated coaching, structured periodization, and recovery protocols.
+                </p>
+                <p style="margin-top: 12px;">
+                    Whether your target is bodybuilding, fat loss, athletic speed, or mobility, our training
+                    suites and certified specialists provide the optimal platform for total transformation.
+                </p>
+            </div>
+        </section>
+
+        <!-- =====================================================
+     PROGRAMS GALLERY WITH BORDER-IMAGE & HOVER PREVIEW
+===================================================== -->
+        <section id="gallery">
+            <h2>Featured Training Programs</h2>
+            <div class="gallery">
+
+                <!-- CARD 1 -->
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80"
+                        alt="Hypertrophy & Strength">
+                    <h3 class="itemName">Hypertrophy &amp; Strength</h3>
+                    <img class="itemImg"
+                        src="https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?auto=format&fit=crop&w=500&q=80"
+                        alt="Hypertrophy Coach Hover Preview">
+                    <span class="tag">Strength &bull; 5 Days/Wk</span>
+                    <p>Compound barbell lifts, progressive overload, and hypertrophy protocols for maximum lean muscle
+                        growth.</p>
+                </div>
+
+                <!-- CARD 2 -->
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80"
+                        alt="HIIT Functional Turf">
+                    <h3 class="itemName">HIIT Functional Turf</h3>
+                    <img class="itemImg"
+                        src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=500&q=80"
+                        alt="Functional Turf Hover Preview">
+                    <span class="tag">Cardio &bull; High Intensity</span>
+                    <p>Sprint intervals, kettlebell complexes, sled drives, and battle ropes for explosive calorie
+                        burning.</p>
+                </div>
+
+                <!-- CARD 3 -->
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=500&q=80"
+                        alt="Mobility & Recovery">
+                    <h3 class="itemName">Mobility &amp; Recovery</h3>
+                    <img class="itemImg"
+                        src="https://images.unsplash.com/photo-1552196563-5524e3a88506?auto=format&fit=crop&w=500&q=80"
+                        alt="Mobility Hover Preview">
+                    <span class="tag">Flexibility &bull; Daily</span>
+                    <p>Joint mobilization, yoga flows, core stability, and post-workout fascia release to prevent
+                        injury.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =====================================================
+     COACHES ROSTER TABLE WITH NTH-CHILD
+===================================================== -->
+        <section id="artists">
+            <h2>Master Coaches Roster</h2>
+            <div class="table-container">
+                <table id="artistsTable">
+                    <thead>
+                        <tr>
+                            <th>Coach Name</th>
+                            <th>Specialization</th>
+                            <th>Experience</th>
+                            <th>Certifications</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Marcus Vance</td>
+                            <td>Powerlifting &amp; Hypertrophy</td>
+                            <td>10+ Years</td>
+                            <td>CSCS, USAW Level 2</td>
+                        </tr>
+                        <tr>
+                            <td>Elena Rostova</td>
+                            <td>Olympic Lifting &amp; Mobility</td>
+                            <td>8 Years</td>
+                            <td>NASM-CPT, FMS Certified</td>
+                        </tr>
+                        <tr>
+                            <td>David Miller</td>
+                            <td>HIIT &amp; Athletic Performance</td>
+                            <td>6 Years</td>
+                            <td>ACE Fitness, TRX Master</td>
+                        </tr>
+                        <tr>
+                            <td>Sarah Jenkins</td>
+                            <td>Endurance &amp; Sports Nutrition</td>
+                            <td>9 Years</td>
+                            <td>ISSA Elite, CISSN Nutritionist</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =====================================================
+     FACILITY & MEMBERSHIP LISTS
+===================================================== -->
+        <section class="lists">
+            <h2>Facility Pillars &amp; Guidelines</h2>
+
+            <h3>Core Pillars of FitPulse</h3>
+            <ol>
+                <li>Scientific Biomechanics &amp; Safe Form First</li>
+                <li>Progressive Overload &amp; Measurable Tracking</li>
+                <li>Consistent Recovery, Hydration, and Nutrition</li>
+            </ol>
+
+            <h3>Premium Training Amenities</h3>
+            <ul>
+                <li>Eleiko Olympic Weightlifting Platforms &amp; Calibrated Plates</li>
+                <li>40-Meter Indoor Sprint &amp; Sled Turf Field</li>
+                <li>Infrared Sauna &amp; Cold Plunge Recovery Suites</li>
+            </ul>
+
+            <h3>Training Glossary</h3>
+            <dl>
+                <dt>Progressive Overload</dt>
+                <dd>The gradual increase of stress placed upon the body during exercise training.</dd>
+                <dt>RPE (Rate of Perceived Exertion)</dt>
+                <dd>A scale from 1 to 10 used to measure workout intensity based on repetitions in reserve.</dd>
+            </dl>
+        </section>
+
+        <!-- =====================================================
+     ASIDE
+===================================================== -->
+        <aside>
+            <h3>Trainer's Daily Pro Tip</h3>
+            <p>
+                "Consistency always outperforms intensity. Focus on executing proper movement mechanics
+                with full range of motion before increasing resistance."
+            </p>
+        </aside>
+
+        <!-- =====================================================
+     ADVANCED CSS3 SHOWCASE
+===================================================== -->
+        <section id="showcase">
+            <h2>Advanced CSS3 Feature Showcase</h2>
+            <p class="showcase-intro">
+                This section highlights the technical execution of each advanced CSS3 module implemented across the
+                FitPulse platform.
+            </p>
+
+            <div class="showcase-grid">
+
+                <!-- CONCEPT 1 -->
+                <div class="showcase-card">
+                    <span class="concept-label">Concept 1</span>
+                    <h3>Rounded Corners</h3>
+                    <p>Asymmetrical border curvature using 4 distinct corner radii.</p>
+                    <div class="demo-rounded">
+                        15px 50px 30px 5px
+                    </div>
+                    <code>border-radius: 15px 50px 30px 5px;</code>
+                </div>
+
+                <!-- CONCEPT 2 -->
+                <div class="showcase-card">
+                    <span class="concept-label">Concept 2</span>
+                    <h3>Border Image</h3>
+                    <p>Stylized container framing using multi-stop linear gradient slicing.</p>
+                    <div class="demo-border">
+                        Gradient Frame
+                    </div>
+                    <code>border-image: linear-gradient(...) 30 round;</code>
+                </div>
+
+                <!-- CONCEPT 3 -->
+                <div class="showcase-card">
+                    <span class="concept-label">Concept 3</span>
+                    <h3>Multiple Backgrounds</h3>
+                    <p>Stacking radial circular highlights over linear angle gradients.</p>
+                    <div class="demo-background">
+                        Dual Radial + Linear
+                    </div>
+                    <code>background-image: radial-gradient(), linear-gradient();</code>
+                </div>
+
+                <!-- CONCEPT 4 -->
+                <div class="showcase-card">
+                    <span class="concept-label">Concept 4</span>
+                    <h3>Background Size &amp; Position</h3>
+                    <p>Precise dimension scaling and corner positioning of background graphics.</p>
+                    <div class="demo-size"></div>
+                    <code>background-size: 80px 60px; background-position: center;</code>
+                </div>
+
+                <!-- CONCEPT 5 -->
+                <div class="showcase-card">
+                    <span class="concept-label">Concept 5</span>
+                    <h3>Form Pseudo-Classes</h3>
+                    <p>Visual states for :required (blue/yellow), :focus (green), and validation.</p>
+                    <div class="demo-form">
+                        <input type="text" placeholder="Required Field" required>
+                        <input type="email" placeholder="Enter Valid Email" required>
+                    </div>
+                    <code>:focus, :required, :valid, :invalid</code>
+                </div>
+
+                <!-- CONCEPT 6 -->
+                <div class="showcase-card">
+                    <span class="concept-label">Concept 6</span>
+                    <h3>Adjacent Sibling Selector</h3>
+                    <p>Hover over the text below to trigger the adjacent image preview.</p>
+                    <div class="demo-sibling">
+                        <h4>[Hover over Coach Name]</h4>
+                        <img src="https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?auto=format&fit=crop&w=300&q=80"
+                            alt="Coach Preview">
+                    </div>
+                    <code>.demo-sibling h4:hover + img</code>
+                </div>
+
+                <!-- CONCEPT 7 -->
+                <div class="showcase-card" style="grid-column: 1 / -1;">
+                    <span class="concept-label">Concept 7</span>
+                    <h3>Structural :nth-child() Selectors</h3>
+                    <p>Zebra striping table rows using mathematical odd and even formulas.</p>
+                    <table class="demo-table">
+                        <tr>
+                            <td>Row 1 (:nth-child(odd) &mdash; #f2f2f2)</td>
+                        </tr>
+                        <tr>
+                            <td>Row 2 (:nth-child(even) &mdash; #ffe6e6)</td>
+                        </tr>
+                        <tr>
+                            <td>Row 3 (:nth-child(odd) &mdash; #f2f2f2)</td>
+                        </tr>
+                        <tr>
+                            <td>Row 4 (:nth-child(even) &mdash; #ffe6e6)</td>
+                        </tr>
+                    </table>
+                    <code>tr:nth-child(odd) { ... } tr:nth-child(even) { ... }</code>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =====================================================
+     REGISTRATION FORM
+===================================================== -->
+        <section id="registration">
+            <h2>FitPulse Member Enrollment</h2>
+            <div class="form-box">
+                <form action="#" method="post">
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name (Required):</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="e.g. Divakaran M" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address (Required):</label>
+                        <input type="email" id="email" name="email" placeholder="e.g. member@fitpulse.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Create Password (Required):</label>
+                        <input type="password" id="password" name="password" minlength="8"
+                            placeholder="At least 8 characters" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age (16 - 75):</label>
+                        <input type="number" id="age" name="age" min="16" max="75" placeholder="20">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dob">Date of Birth:</label>
+                        <input type="date" id="dob" name="dob">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Primary Fitness Goal:</label>
+                        <div class="choice">
+                            <label><input type="radio" name="goal" value="hypertrophy" checked> Muscle Building</label>
+                            <label><input type="radio" name="goal" value="fatloss"> Fat Loss &amp; Cardio</label>
+                            <label><input type="radio" name="goal" value="athletic"> Athletic Conditioning</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preferred Amenities:</label>
+                        <div class="choice">
+                            <label><input type="checkbox" name="amenity" value="sauna" checked> Infrared Sauna</label>
+                            <label><input type="checkbox" name="amenity" value="pool"> Olympic Pool</label>
+                            <label><input type="checkbox" name="amenity" value="nutrition"> Nutrition Consult</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tier">Membership Tier:</label>
+                        <select id="tier" name="tier">
+                            <option value="standard">Standard Club Access ($39/mo)</option>
+                            <option value="elite" selected>Elite Performance Tier ($79/mo)</option>
+                            <option value="vip">VIP Platinum All-Access ($129/mo)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="intensity">Training Experience Level (1 = Beginner, 10 = Pro Athlete):</label>
+                        <input type="range" id="intensity" name="intensity" min="1" max="10" value="7">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="badgeColor">Locker Badge Custom Color:</label>
+                        <input type="color" id="badgeColor" name="badgeColor" value="#ff4d4d">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="medicalProof">Upload Health Clearance / ID Proof:</label>
+                        <input type="file" id="medicalProof" name="medicalProof">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Special Health Considerations / Injuries:</label>
+                        <textarea id="notes" name="notes"
+                            placeholder="Specify any previous shoulder, lower back, or joint conditions..."></textarea>
+                    </div>
+
+                    <div class="buttons">
+                        <input type="submit" value="Complete Registration" class="submit">
+                        <input type="reset" value="Clear Form" class="reset">
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
+        <!-- =====================================================
+     CONTACT
+===================================================== -->
+        <section id="contact" class="contact">
+            <h2>Contact Us</h2>
+            <p>
+                Email:
+                <a href="mailto:fitpulsetraining@gmail.com">
+                    fitpulsetraining@gmail.com
+                </a>
+            </p>
+            <p>
+                Phone: +91 9876543210
+            </p>
+            <br>
+            <a href="#home">
+                Back To Top &uarr;
+            </a>
+        </section>
+
+    </main>
+
+    <!-- =====================================================
+     FOOTER
+===================================================== -->
+    <footer>
+        <h3>FitPulse Training Club</h3>
+        <p>Done by Divakaran M | URK24CS1200</p>
+        <p>&copy; 2026 FitPulse Training Club</p>
+    </footer>
+
+</body>
+
+</html>
