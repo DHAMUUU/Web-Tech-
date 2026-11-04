@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fitnessApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPulse Training Club - Divakaran</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #101014;
+            color: white;
+            line-height: 1.6;
+        }
+
+        header,
+        footer {
+            background: #09090d;
+            color: #ff4d4d;
+            text-align: center;
+            padding: 22px;
+            border-bottom: 2px solid #ff4d4d;
+        }
+
+        header h1 {
+            font-size: 38px;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            color: #ccc;
+            font-size: 15px;
+        }
+
+        nav {
+            background: #1a1a22;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 8px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff4d4d;
+        }
+
+        section {
+            padding: 40px 7%;
+        }
+
+        h2 {
+            color: #ff4d4d;
+            text-align: center;
+            margin-bottom: 22px;
+            text-transform: uppercase;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 90px 20px;
+            background: linear-gradient(120deg, #121218, #3a1111);
+        }
+
+        .hero h2 {
+            font-size: 38px;
+            color: white;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: 10px auto 20px;
+            color: #ddd;
+        }
+
+        button {
+            background: #ff4d4d;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #e03434;
+        }
+
+        button:disabled {
+            background: #444;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 11px;
+            margin: 8px 0;
+            border: 1px solid #552222;
+            border-radius: 5px;
+            background: #202028;
+            color: white;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #ff4d4d;
+        }
+
+        input[type="radio"] {
+            width: auto;
+            accent-color: #ff4d4d;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #eee;
+        }
+
+        .gallery,
+        .programs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .card,
+        .program {
+            background: #1a1a24;
+            padding: 18px;
+            border: 1px solid #4a1d1d;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card h3,
+        .program h3 {
+            color: #ff4d4d;
+            margin: 10px 0;
+        }
+
+        .result {
+            color: #ffb3b3;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1a1a24;
+        }
+
+        th,
+        td {
+            border: 1px solid #4a1d1d;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            color: #ff4d4d;
+            background: #251212;
+        }
+
+        #workoutGrid {
+            display: grid;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .workoutTile {
+            background: #3b1414;
+            padding: 15px;
+            text-align: center;
+            font-size: 25px;
+            border-radius: 6px;
+        }
+
+        #trackLane {
+            height: 75px;
+            background: #2a2a35;
+            position: relative;
+            overflow: hidden;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+
+        #movingAthlete {
+            position: absolute;
+            font-size: 40px;
+            left: 0;
+            top: 15px;
+        }
+
+        .budget-results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .budget-box {
+            background: #3b1414;
+            color: #ff9999;
+            padding: 12px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .store-item {
+            text-align: center;
+            background: #252533;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .store-icon {
+            font-size: 40px;
+        }
+
+        #gearPreview {
+            width: 180px;
+            height: 130px;
+            margin: 20px auto;
+            background: linear-gradient(45deg, #333, #ff4d4d);
+            border: 10px solid #ff4d4d;
+            border-radius: 8px;
+        }
+
+        .validation-error {
+            color: #ff6b6b;
+            font-size: 13px;
+            display: block;
+            margin-top: -4px;
+            margin-bottom: 6px;
+        }
+
+        .valid-message {
+            color: #51cf66;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        .route-links {
+            margin: 15px 0;
+            padding: 14px;
+            background: #20202c;
+            border: 1px solid #ff4d4d;
+            border-radius: 8px;
+        }
+
+        .route-links a {
+            color: #ff9999;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .route-links a:hover {
+            color: white;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        @media(max-width:600px) {
+            nav a {
+                display: inline-block;
+                margin: 5px;
+            }
+
+            .hero h2 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>FITPULSE TRAINING CLUB</h1>
+        <p>Empower Your Body • Master Your Strength • Live Fit</p>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#programs">Programs</a>
+        <a href="#trainers">Trainers</a>
+        <a href="#exp5">Exp 5</a>
+        <a href="#exp6">Exp 6</a>
+        <a href="#exp7">Exp 7</a>
+        <a href="#exp8">Exp 8</a>
+        <a href="#exp9">Exp 9</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- HOME -->
+    <section class="hero" id="home">
+        <h2>Welcome to FitPulse Training Club</h2>
+        <p>Discover customized workout programs, elite personal trainers, and high-performance fitness routines.</p>
+        <button onclick="alert('Welcome to FitPulse Training Club! Start your fitness journey today!')">
+            Explore Programs
+        </button>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <h2>About FitPulse</h2>
+        <p>
+            FitPulse Training Club is a world-class wellness center dedicated to strength building,
+            high-intensity conditioning, functional movement, and sustainable athletic transformation.
+            Our evidence-based coaching elevates your stamina, flexibility, and physical power.
+        </p>
+    </section>
+
+    <!-- PROGRAMS -->
+    <section id="programs">
+        <h2>Training Programs</h2>
+        <input type="text" id="searchWorkout" placeholder="Search workout program...">
+        <div class="gallery" id="programItems">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=500" alt="Strength Training">
+                <h3>Strength & Powerlifting</h3>
+                <p>Compound barbell movements to build raw strength.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=500" alt="HIIT Training">
+                <h3>HIIT & Cardio Blast</h3>
+                <p>Fast-paced interval sprints to torch calories.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500" alt="Yoga Mobility">
+                <h3>Yoga & Flexibility</h3>
+                <p>Restore joint health and muscular flexibility.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500" alt="Calisthenics">
+                <h3>Bodyweight & Calisthenics</h3>
+                <p>Master pull-ups, dips, and core endurance.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500" alt="CrossFit">
+                <h3>Functional CrossFit</h3>
+                <p>Kettlebell, tire flips, and conditioning circuits.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=500" alt="Athletic Recovery">
+                <h3>Mobility & Recovery</h3>
+                <p>Foam rolling, sauna relaxation, and stretching.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRAINERS -->
+    <section id="trainers">
+        <h2>Elite Certified Coaches</h2>
+        <table>
+            <tr>
+                <th>Coach Name</th>
+                <th>Specialization</th>
+                <th>Experience</th>
+            </tr>
+            <tr>
+                <td>Marcus Vance</td>
+                <td>Olympic Weightlifting</td>
+                <td>9 Years</td>
+            </tr>
+            <tr>
+                <td>Elena Rostova</td>
+                <td>HIIT & Athletic Conditioning</td>
+                <td>6 Years</td>
+            </tr>
+            <tr>
+                <td>David Chen</td>
+                <td>Kinesiology & Mobility</td>
+                <td>8 Years</td>
+            </tr>
+        </table>
+    </section>
+
+    <!-- EXPERIMENT 5 -->
+    <section id="exp5">
+        <h2>Experiment 5 - JavaScript DOM and Events</h2>
+        <div class="programs">
+            <div class="program">
+                <h3>1. Workout Routine Word Analyzer</h3>
+                <input id="routineText" placeholder="Enter workout routine description">
+                <button onclick="countRoutineWords()">Analyze Words</button>
+                <p id="wordResult" class="result"></p>
+            </div>
+            <div class="program">
+                <h3>2. Gym Mat Area Calculator</h3>
+                <input type="number" id="matWidth" placeholder="Width in feet">
+                <input type="number" id="matLength" placeholder="Length in feet">
+                <button onclick="calculateMatArea()">Calculate Area</button>
+                <p id="matResult" class="result"></p>
+            </div>
+            <div class="program">
+                <h3>3. Exercise Grid Generator</h3>
+                <input type="number" id="gridRows" placeholder="Rows (1-10)">
+                <input type="number" id="gridCols" placeholder="Columns (1-10)">
+                <button onclick="generateWorkoutGrid()">Generate Grid</button>
+                <div id="workoutGrid"></div>
+            </div>
+            <div class="program">
+                <h3>4. Membership Fee Currency Converter</h3>
+                <input type="number" id="feeAmount" placeholder="Enter amount">
+                <select id="currencyFrom">
+                    <option value="INR">INR (₹)</option>
+                    <option value="USD">USD ($)</option>
+                </select>
+                <select id="currencyTo">
+                    <option value="USD">USD ($)</option>
+                    <option value="INR">INR (₹)</option>
+                </select>
+                <button onclick="convertMembershipFee()">Convert Fee</button>
+                <p id="currencyResult" class="result"></p>
+            </div>
+            <div class="program">
+                <h3>5. Daily Workout Picker</h3>
+                <div id="favouriteWorkout" style="font-size:50px;text-align:center">🏋️</div>
+                <button onclick="pickDailyWorkout()">Randomize Workout</button>
+                <p id="workoutPickResult" class="result"></p>
+            </div>
+            <div class="program">
+                <h3>6. Protein Shake Bar Order</h3>
+                <select id="shakeType">
+                    <option value="120">Whey Protein Shake - Rs.120</option>
+                    <option value="180">Mass Gainer Smoothie - Rs.180</option>
+                    <option value="220">BCAA Recovery Blend - Rs.220</option>
+                </select>
+                <input type="number" id="shakeQty" value="1" min="1">
+                <button onclick="calculateShakeBill()">Calculate Bill</button>
+                <p id="shakeBillResult" class="result"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIMENT 6 -->
+    <section id="exp6">
+        <h2>Experiment 6 - Timer Functions and Arrays</h2>
+        <div class="programs">
+            <div class="program">
+                <h3>1. Gym Training Clock</h3>
+                <h2 id="clock">00:00:00</h2>
+                <p id="clockDate"></p>
+            </div>
+            <div class="program">
+                <h3>2. Gym Ambience Light Changer</h3>
+                <button onclick="changeGymLight()">Change Lighting</button>
+                <button onclick="stopGymLight()">Stop Light Timer</button>
+                <p id="lightResult" class="result"></p>
+            </div>
+            <div class="program">
+                <h3>3. Motivational Quote Hover Effect</h3>
+                <p id="quoteText" onmouseover="expandQuote()" onmouseout="shrinkQuote()">
+                    "Discipline is doing what needs to be done, even when you don't feel like doing it."
+                </p>
+            </div>
+            <div class="program">
+                <h3>4. Sprinting Athlete Animation</h3>
+                <div id="trackLane">
+                    <div id="movingAthlete">🏃</div>
+                </div>
+                <button onclick="startSprint()">Sprint</button>
+                <button onclick="stopSprint()">Pause</button>
+                <button onclick="resetSprint()">Reset</button>
+            </div>
+            <div class="program">
+                <h3>5. Personal Trainers Array</h3>
+                <button onclick="displayTrainers()">Show Trainers</button>
+                <p id="trainersResult" class="result"></p>
+            </div>
+            <div class="program">
+                <h3>6. Date & Time Object</h3>
+                <button onclick="showSessionDate()">Show Session Time</button>
+                <p id="dateResult" class="result"></p>
+            </div>
+            <div class="program">
+                <h3>7. Workout Routine Class and Object</h3>
+                <button onclick="showWorkoutClass()">Display Program Object</button>
+                <p id="classResult" class="result"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIMENT 7 -->
+    <section id="exp7">
+        <h2>Experiment 7 - jQuery Applications</h2>
+        <div class="programs">
+            <div class="program">
+                <h3>1. Gym Event & Facility Budget</h3>
+                <input type="number" id="budgetAmount" placeholder="Total Budget">
+                <input type="number" id="equipmentPercent" value="45" placeholder="Equipment %">
+                <input type="number" id="trainerPercent" value="25" placeholder="Trainer %">
+                <input type="number" id="facilityPercent" value="20" placeholder="Facility %">
+                <input type="number" id="nutritionPercent" value="10" placeholder="Nutrition %">
+                <button id="calcBudgetBtn">Calculate Budget</button>
+                <div id="budgetOutput" class="budget-results">
+                    <div class="budget-box">Equipment<br>Rs.0</div>
+                    <div class="budget-box">Trainers<br>Rs.0</div>
+                    <div class="budget-box">Facility<br>Rs.0</div>
+                    <div class="budget-box">Nutrition<br>Rs.0</div>
+                </div>
+                <p id="budgetMessage" class="result"></p>
+            </div>
+            <div class="program">
+                <h3>2. Fitness Apparel & Gear Shop</h3>
+                <div class="gallery">
+                    <div class="store-item">
+                        <div class="store-icon">🏋️</div>
+                        <b>Lifting Straps</b>
+                        <p>Rs.350</p>
+                    </div>
+                    <div class="store-item">
+                        <div class="store-icon">🥤</div>
+                        <b>Shaker Bottle</b>
+                        <p>Rs.250</p>
+                    </div>
+                    <div class="store-item">
+                        <div class="store-icon">🥊</div>
+                        <b>Workout Gloves</b>
+                        <p>Rs.450</p>
+                    </div>
+                    <div class="store-item">
+                        <div class="store-icon">👕</div>
+                        <b>Gym Jersey</b>
+                        <p>Rs.600</p>
+                    </div>
+                </div>
+                <input type="number" id="strapsQty" value="0" min="0" placeholder="Straps Quantity">
+                <input type="number" id="shakerQty" value="0" min="0" placeholder="Shaker Quantity">
+                <input type="number" id="glovesQty" value="0" min="0" placeholder="Gloves Quantity">
+                <input type="number" id="jerseyQty" value="0" min="0" placeholder="Jersey Quantity">
+                <button id="gearOrderBtn">Place Gear Order</button>
+                <p id="gearBill" class="result">Total Price: Rs.0</p>
+            </div>
+            <div class="program">
+                <h3>3. Gym Locker & Gear Customizer</h3>
+                <div id="gearPreview"></div>
+                <button id="lockerColorBtn">Change Border Color</button>
+                <button id="lockerBgBtn">Change Plate Color</button>
+                <button id="lockerSizeBtn">Enlarge Size</button>
+                <button id="lockerResetBtn">Reset Locker</button>
+                <p id="lockerMessage" class="result"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIMENT 8 -->
+    <section id="exp8">
+        <h2>Experiment 8 - AngularJS Directives</h2>
+        <div class="programs">
+            <div class="program" ng-controller="WelcomeCtrl">
+                <h3>1. Fitness Club Welcome</h3>
+                <h2>{{welcomeMessage}}</h2>
+            </div>
+            <div class="program" ng-controller="WorkoutReviewCtrl">
+                <h3>2. Member Workout Review Box</h3>
+                <textarea ng-model="review" placeholder="Share your workout feedback..."></textarea>
+                <button ng-click="addReview()">Post Review</button>
+                <h4>Member Reviews</h4>
+                <ul>
+                    <li ng-repeat="r in reviews track by $index">
+                        {{r}}
+                        <button ng-click="deleteReview($index)">Delete</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="program" ng-controller="SessionPriceCtrl">
+                <h3>3. Personal Training Cost Calculator</h3>
+                <input type="number" ng-model="sessionPrice" placeholder="Session Price (Rs)">
+                <input type="number" ng-model="sessionQty" placeholder="Number of Sessions">
+                <button ng-click="calcTotal()">Calculate Fee</button>
+                <p class="result">Total Cost: Rs.{{totalCost}}</p>
+            </div>
+            <div class="program" ng-controller="WorkoutTaskCtrl">
+                <h3>4. Daily Exercise Checklist</h3>
+                <input type="text" ng-model="task" placeholder="e.g. 50 Pushups, 5km Run">
+                <button ng-click="addTask()">Add Exercise</button>
+                <ul>
+                    <li ng-repeat="t in tasks track by $index">
+                        {{t}}
+                        <button ng-click="removeTask($index)">Completed</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIMENT 9 -->
+    <section id="exp9">
+        <h2>Experiment 9 - Form Validation and Routing using AngularJS</h2>
+        <div class="program">
+            <h3>AngularJS Routing & Navigation</h3>
+            <p>Seamless single-page navigation without refreshing the browser.</p>
+            <div class="route-links">
+                <a href="#!/exp9-home">Overview</a>
+                <a href="#!/strength">Strength Zone</a>
+                <a href="#!/cardio">Cardio Zone</a>
+                <a href="#!/yoga">Yoga Zone</a>
+                <a href="#!/registration">Member Registration</a>
+            </div>
+            <div ng-view></div>
+        </div>
+    </section>
+
+    <!-- EXPERIMENT 9 ROUTE TEMPLATES -->
+    <script type="text/ng-template" id="exp9-home.html">
+<div class="program">
+    <h3>FitPulse Main Portal</h3>
+    <p>Welcome to the single-page AngularJS routing module for FitPulse Training Club.</p>
+</div>
+</script>
+
+    <script type="text/ng-template" id="exp9-strength.html">
+<div class="program" style="background:#4a1515">
+    <h3>Strength Training Zone</h3>
+    <p>Equipped with Olympic barbells, calibrated plates, squat racks, and deadlift platforms.</p>
+</div>
+</script>
+
+    <script type="text/ng-template" id="exp9-cardio.html">
+<div class="program" style="background:#153a23">
+    <h3>Cardio & Endurance Zone</h3>
+    <p>Features curved treadmills, air bikes, rowing ergometers, and high-intensity turf tracks.</p>
+</div>
+</script>
+
+    <script type="text/ng-template" id="exp9-yoga.html">
+<div class="program" style="background:#15284a">
+    <h3>Mindful Yoga & Mobility Zone</h3>
+    <p>Dedicated studio for flexibility stretching, breath control, and muscular restorative therapy.</p>
+</div>
+</script>
+
+    <script type="text/ng-template" id="exp9-register.html">
+<div class="program" ng-controller="MemberRegistrationController">
+    <h3>Trainee Member Registration Form</h3>
+    <form name="regForm" ng-submit="submitMemberForm()" novalidate>
+        <label>Full Name *</label>
+        <input type="text" name="name" ng-model="trainee.name"
+               required ng-pattern="/^[A-Za-z ]+$/" placeholder="Enter your full name">
+        <span class="validation-error"
+              ng-show="regForm.name.$touched && regForm.name.$invalid">
+            Full name is required and must contain letters only.
+        </span>
+
+        <label>Account Password *</label>
+        <input type="password" name="password" ng-model="trainee.password"
+               required ng-pattern="/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$/" placeholder="Min 8 chars, 1 uppercase, 1 digit">
+        <span class="validation-error"
+              ng-show="regForm.password.$touched && regForm.password.$invalid">
+            Password must contain at least 8 characters with 1 uppercase, 1 lowercase, and 1 number.
+        </span>
+
+        <label>Age *</label>
+        <input type="number" name="age" ng-model="trainee.age"
+               required min="16" max="75" placeholder="Enter age between 16 and 75">
+        <span class="validation-error"
+              ng-show="regForm.age.$touched && regForm.age.$invalid">
+            Age must be between 16 and 75 years.
+        </span>
+
+        <label>Mobile Number *</label>
+        <input type="text" name="mobile" ng-model="trainee.mobile"
+               required ng-pattern="/^[0-9]{10}$/" placeholder="10-digit mobile number">
+        <span class="validation-error"
+              ng-show="regForm.mobile.$touched && regForm.mobile.$invalid">
+            Mobile number must contain exactly 10 digits.
+        </span>
+
+        <label>Email Address *</label>
+        <input type="email" name="email" ng-model="trainee.email" required placeholder="name@example.com">
+        <span class="validation-error"
+              ng-show="regForm.email.$touched && regForm.email.$invalid">
+            Please enter a valid email address.
+        </span>
+
+        <label>Gender *</label>
+        <label>
+            <input type="radio" name="gender" ng-model="trainee.gender" value="Male" required> Male
+        </label>
+        <label>
+            <input type="radio" name="gender" ng-model="trainee.gender" value="Female" required> Female
+        </label>
+        <span class="validation-error"
+              ng-show="regForm.gender.$touched && regForm.gender.$invalid">
+            Please select your gender.
+        </span>
+
+        <label>Home State / Region *</label>
+        <select name="state" ng-model="trainee.state" required>
+            <option value="">Select State</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+        </select>
+        <span class="validation-error"
+              ng-show="regForm.state.$touched && regForm.state.$invalid">
+            Please select your state.
+        </span>
+
+        <br>
+        <button type="submit" ng-disabled="regForm.$invalid">
+            Register Member
+        </button>
+        <p class="valid-message" ng-show="submitted">
+            Registration successful! Welcome to FitPulse Training Club.
+        </p>
+    </form>
+</div>
+</script>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <div class="program">
+            <form id="contactForm">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="email" id="email" placeholder="Your Email" required>
+                <textarea id="message" placeholder="Your Fitness Goals or Inquiry" required></textarea>
+                <button type="submit">Send Message</button>
+                <p id="formResult" class="result"></p>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>DIVAKARAN M | URK24CS1200</p>
+        <p>FitPulse Training Club - Form Validation and Routing using AngularJS (Experiments 5 to 9)</p>
+    </footer>
+
+    <script>
+        /* EXPERIMENT 5 - JAVASCRIPT DOM AND EVENTS */
+        // 1. Workout Routine Word Analyzer
+        function countRoutineWords() {
+            let text = document.getElementById("routineText").value.trim();
+            let words = text === "" ? [] : text.split(/\s+/);
+            document.getElementById("wordResult").innerHTML =
+                "Total Words in Routine: " + words.length;
+        }
+
+        // 2. Gym Mat Area Calculator
+        function calculateMatArea() {
+            let w = Number(document.getElementById("matWidth").value);
+            let l = Number(document.getElementById("matLength").value);
+            if (w <= 0 || l <= 0) {
+                document.getElementById("matResult").innerHTML = "Enter valid dimensions.";
+                return;
+            }
+            document.getElementById("matResult").innerHTML = "Mat Surface Area: " + (w * l) + " sq. ft";
+        }
+
+        // 3. Exercise Grid Generator
+        function generateWorkoutGrid() {
+            let rows = Number(document.getElementById("gridRows").value);
+            let cols = Number(document.getElementById("gridCols").value);
+            if (rows < 1 || cols < 1 || rows > 10 || cols > 10) {
+                document.getElementById("workoutGrid").innerHTML = "Enter rows and cols between 1 and 10.";
+                return;
+            }
+            let grid = document.getElementById("workoutGrid");
+            grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            grid.innerHTML = "";
+            let icons = ["🏋️", "🤸", "🏃", "🧘", "🥊"];
+            for (let i = 0; i < rows * cols; i++) {
+                let tile = document.createElement("div");
+                tile.className = "workoutTile";
+                tile.innerHTML = icons[i % icons.length];
+                grid.appendChild(tile);
+            }
+        }
+
+        // 4. Membership Fee Currency Converter
+        function convertMembershipFee() {
+            let amount = Number(document.getElementById("feeAmount").value);
+            let from = document.getElementById("currencyFrom").value;
+            let to = document.getElementById("currencyTo").value;
+            if (amount < 0 || !Number.isFinite(amount)) {
+                document.getElementById("currencyResult").innerHTML = "Enter a valid amount.";
+                return;
+            }
+            let res = amount;
+            if (from !== to) {
+                res = from === "INR" ? amount * 0.012 : amount * 83.25;
+            }
+            document.getElementById("currencyResult").innerHTML =
+                "Converted Fee: " + res.toFixed(2) + " " + to;
+        }
+
+        // 5. Daily Workout Picker
+        function pickDailyWorkout() {
+            let icons = ["🏋️", "🏃", "🧘", "🥊", "🤸"];
+            let names = ["Heavy Barbell Squats", "5km Interval Sprint", "Hatha Yoga Session",
+                "Heavy Bag Boxing Rounds", "Calisthenics Core Routine"];
+            let idx = Math.floor(Math.random() * icons.length);
+            document.getElementById("favouriteWorkout").innerHTML = icons[idx];
+            document.getElementById("workoutPickResult").innerHTML = "Today's Focus: " + names[idx];
+        }
+
+        // 6. Shake Bar Order
+        function calculateShakeBill() {
+            let price = Number(document.getElementById("shakeType").value);
+            let qty = Number(document.getElementById("shakeQty").value);
+            if (qty < 1 || !Number.isInteger(qty)) {
+                document.getElementById("shakeBillResult").innerHTML = "Enter a valid quantity.";
+                return;
+            }
+            document.getElementById("shakeBillResult").innerHTML =
+                "Total Bill: Rs." + (price * qty).toFixed(2);
+        }
+
+        // Program Search
+        document.getElementById("searchWorkout").addEventListener("keyup", function () {
+            let val = this.value.toLowerCase();
+            document.querySelectorAll("#programItems .card").forEach(function (card) {
+                card.style.display = card.innerText.toLowerCase().includes(val) ? "" : "none";
+            });
+        });
+
+        // Contact Form
+        document.getElementById("contactForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            document.getElementById("formResult").innerHTML =
+                "Thank you, " + document.getElementById("name").value + "! Your message has been sent to our coaches.";
+        });
+
+        /* EXPERIMENT 6 - TIMER FUNCTIONS AND ARRAYS */
+        // 1. Digital Clock
+        function showGymClock() {
+            let now = new Date();
+            let h = String(now.getHours()).padStart(2, "0");
+            let m = String(now.getMinutes()).padStart(2, "0");
+            let s = String(now.getSeconds()).padStart(2, "0");
+            document.getElementById("clock").innerHTML = h + ":" + m + ":" + s;
+            document.getElementById("clockDate").innerHTML = now.toDateString();
+        }
+        showGymClock();
+        setInterval(showGymClock, 1000);
+
+        // 2. Light Changer
+        function changeGymLight() {
+            let r = Math.floor(Math.random() * 60);
+            let g = Math.floor(Math.random() * 60);
+            let b = Math.floor(Math.random() * 60);
+            document.body.style.backgroundColor = `rgb(${r},${g},${b})`;
+            document.getElementById("lightResult").innerHTML = `Gym Light RGB(${r}, ${g}, ${b})`;
+        }
+        let lightTimer = setInterval(changeGymLight, 30000);
+        function stopGymLight() {
+            clearInterval(lightTimer);
+            document.getElementById("lightResult").innerHTML = "Ambient light timer stopped.";
+        }
+
+        // 3. Hover Effect
+        function expandQuote() {
+            document.getElementById("quoteText").style.fontSize = "22px";
+            document.getElementById("quoteText").style.color = "#ff4d4d";
+        }
+        function shrinkQuote() {
+            document.getElementById("quoteText").style.fontSize = "16px";
+            document.getElementById("quoteText").style.color = "white";
+        }
+
+        // 4. Moving Athlete
+        let sprintPos = 0;
+        let sprintTimer;
+        function runSprint() {
+            if (sprintPos < 450) {
+                sprintPos += 3;
+                document.getElementById("movingAthlete").style.left = sprintPos + "px";
+                sprintTimer = setTimeout(runSprint, 20);
+            }
+        }
+        function startSprint() {
+            clearTimeout(sprintTimer);
+            runSprint();
+        }
+        function stopSprint() {
+            clearTimeout(sprintTimer);
+        }
+        function resetSprint() {
+            clearTimeout(sprintTimer);
+            sprintPos = 0;
+            document.getElementById("movingAthlete").style.left = "0px";
+        }
+
+        // 5. Trainers Array of Objects
+        let coaches = [
+            { name: "Marcus Vance", specialty: "Olympic Weightlifting" },
+            { name: "Elena Rostova", specialty: "HIIT & Conditioning" },
+            { name: "David Chen", specialty: "Kinesiology & Mobility" }
+        ];
+        function displayTrainers() {
+            let out = "";
+            coaches.forEach(function (c) {
+                out += "Coach " + c.name + " (" + c.specialty + ")<br>";
+            });
+            document.getElementById("trainersResult").innerHTML = out;
+        }
+
+        // 6. Date Object
+        function showSessionDate() {
+            let d = new Date();
+            document.getElementById("dateResult").innerHTML =
+                "Day: " + d.getDate() + " | Month: " + (d.getMonth() + 1) +
+                " | Year: " + d.getFullYear() + " | Time: " + d.toLocaleTimeString();
+        }
+
+        // 7. Class and Object
+        class WorkoutRoutine {
+            constructor(name, intensity) {
+                this.name = name;
+                this.intensity = intensity;
+            }
+            display() {
+                return this.name + " [" + this.intensity + " Intensity]";
+            }
+        }
+        function showWorkoutClass() {
+            let plan = new WorkoutRoutine("Push-Pull-Legs Hypertrophy", "Advanced");
+            document.getElementById("classResult").innerHTML = plan.display();
+        }
+
+        /* EXPERIMENT 7 - JQUERY */
+        $(document).ready(function () {
+            // 1. Budget
+            $("#calcBudgetBtn").click(function () {
+                let amount = Number($("#budgetAmount").val());
+                let p = [
+                    Number($("#equipmentPercent").val()),
+                    Number($("#trainerPercent").val()),
+                    Number($("#facilityPercent").val()),
+                    Number($("#nutritionPercent").val())
+                ];
+                let tot = p.reduce((a, b) => a + b, 0);
+                if (amount <= 0 || p.some(x => x < 0 || x > 100) || tot !== 100) {
+                    alert("Enter a valid budget and percentages totaling 100%.");
+                    return;
+                }
+                let vals = p.map(x => amount * x / 100);
+                $("#budgetOutput").html(
+                    `<div class="budget-box">Equipment<br>Rs.${vals[0].toFixed(2)}</div>
+             <div class="budget-box">Trainers<br>Rs.${vals[1].toFixed(2)}</div>
+             <div class="budget-box">Facility<br>Rs.${vals[2].toFixed(2)}</div>
+             <div class="budget-box">Nutrition<br>Rs.${vals[3].toFixed(2)}</div>`
+                );
+                $("#budgetMessage").text("Gym budget allocated successfully!");
+            });
+
+            // 2. Gear Shop
+            $("#gearOrderBtn").click(function () {
+                let q = [
+                    Number($("#strapsQty").val()),
+                    Number($("#shakerQty").val()),
+                    Number($("#glovesQty").val()),
+                    Number($("#jerseyQty").val())
+                ];
+                if (q.some(x => x < 0 || !Number.isInteger(x))) {
+                    alert("Please enter valid quantities.");
+                    return;
+                }
+                let total = q[0] * 350 + q[1] * 250 + q[2] * 450 + q[3] * 600;
+                $("#gearBill").text("Total Price: Rs." + total);
+            });
+
+            // 3. Customizer
+            $("#lockerColorBtn").click(function () {
+                let colors = ["#ff4d4d", "#4dabf7", "#51cf66", "#fcc419", "#ff922b"];
+                $("#gearPreview").css("border-color", colors[Math.floor(Math.random() * colors.length)]);
+                $("#lockerMessage").text("Locker border colour updated!");
+            });
+            $("#lockerBgBtn").click(function () {
+                let bgs = ["#1a1a24", "#2b1111", "#112615", "#142033"];
+                $("#gearPreview").css("background", bgs[Math.floor(Math.random() * bgs.length)]);
+                $("#lockerMessage").text("Locker interior plate colour updated!");
+            });
+            $("#lockerSizeBtn").click(function () {
+                $("#gearPreview").css({ "width": "230px", "height": "170px" });
+                $("#lockerMessage").text("Locker dimensions enlarged!");
+            });
+            $("#lockerResetBtn").click(function () {
+                $("#gearPreview").css({
+                    "width": "180px", "height": "130px",
+                    "border-color": "#ff4d4d",
+                    "background": "linear-gradient(45deg, #333, #ff4d4d)"
+                });
+                $("#lockerMessage").text("Locker design restored to default.");
+            });
+        });
+
+        /* EXPERIMENT 8 & 9 - ANGULARJS */
+        var fitnessApp = angular.module("fitnessApp", ["ngRoute"]);
+
+        /* ROUTING CONFIGURATION */
+        fitnessApp.config(function ($routeProvider) {
+            $routeProvider
+                .when("/exp9-home", {
+                    templateUrl: "exp9-home.html"
+                })
+                .when("/strength", {
+                    templateUrl: "exp9-strength.html"
+                })
+                .when("/cardio", {
+                    templateUrl: "exp9-cardio.html"
+                })
+                .when("/yoga", {
+                    templateUrl: "exp9-yoga.html"
+                })
+                .when("/registration", {
+                    templateUrl: "exp9-register.html"
+                })
+                .otherwise({
+                    redirectTo: "/exp9-home"
+                });
+        });
+
+        /* EXP 9 - FORM VALIDATION CONTROLLER */
+        fitnessApp.controller("MemberRegistrationController", function ($scope) {
+            $scope.trainee = {};
+            $scope.submitted = false;
+            $scope.submitMemberForm = function () {
+                if ($scope.regForm.$valid) {
+                    $scope.submitted = true;
+                }
+            };
+        });
+
+        /* EXP 8 CONTROLLERS */
+        // 1. Welcome Directive
+        fitnessApp.controller("WelcomeCtrl", function ($scope) {
+            $scope.welcomeMessage = "Welcome to FitPulse Training Club!";
+        });
+
+        // 2. Workout Review Box
+        fitnessApp.controller("WorkoutReviewCtrl", function ($scope) {
+            $scope.reviews = [];
+            $scope.addReview = function () {
+                if ($scope.review && $scope.review.trim()) {
+                    $scope.reviews.push($scope.review);
+                    $scope.review = "";
+                }
+            };
+            $scope.deleteReview = function (idx) {
+                $scope.reviews.splice(idx, 1);
+            };
+        });
+
+        // 3. Price Calculator
+        fitnessApp.controller("SessionPriceCtrl", function ($scope) {
+            $scope.calcTotal = function () {
+                $scope.totalCost = Number($scope.sessionPrice) * Number($scope.sessionQty);
+            };
+        });
+
+        // 4. Exercise Task List
+        fitnessApp.controller("WorkoutTaskCtrl", function ($scope) {
+            $scope.tasks = [];
+            $scope.addTask = function () {
+                if ($scope.task && $scope.task.trim()) {
+                    $scope.tasks.push($scope.task);
+                    $scope.task = "";
+                }
+            };
+            $scope.removeTask = function (idx) {
+                $scope.tasks.splice(idx, 1);
+            };
+        });
+    </script>
+</body>
+
+</html>
