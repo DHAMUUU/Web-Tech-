@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPulse | AngularJS Directives & Controllers - Dhamodharan R</title>
+    <!-- jQuery 3.7.1 & AngularJS 1.6.9 CDN Libraries -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <style>
+        /* =====================================================
+   RESET & BASE STYLES
+===================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+            line-height: 1.6;
+            transition: background 1s ease;
+        }
+
+        header,
+        footer {
+            background: #1a1a24;
+            color: white;
+            text-align: center;
+            padding: 24px 15px;
+            border-bottom: 4px solid #ff4d4d;
+        }
+
+        header h1 {
+            font-size: clamp(2rem, 5vw, 2.6rem);
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        header h1 span {
+            color: #ff4d4d;
+        }
+
+        header p {
+            color: #ccc;
+            margin-top: 5px;
+        }
+
+        .student-tag {
+            color: #ffcc00 !important;
+            font-weight: bold;
+            margin-top: 6px !important;
+        }
+
+        /* =====================================================
+   NAVIGATION
+===================================================== */
+        nav {
+            background: #232533;
+            padding: 12px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 6px 9px;
+            font-weight: bold;
+            font-size: 0.90rem;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #ff4d4d;
+        }
+
+        /* =====================================================
+   SECTIONS & HERO
+===================================================== */
+        section {
+            padding: 35px 7%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1a1a24;
+            margin-bottom: 22px;
+            font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 75px 20px;
+            background: linear-gradient(rgba(26, 26, 36, 0.85), rgba(26, 26, 36, 0.85)),
+                url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=85') center/cover no-repeat;
+            color: white;
+            border-radius: 10px;
+            margin: 20px 7%;
+        }
+
+        .hero h2 {
+            color: #ffffff;
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            margin-bottom: 12px;
+        }
+
+        .hero h2 span {
+            color: #ff4d4d;
+        }
+
+        .hero p {
+            color: #e0e0e0;
+            max-width: 680px;
+            margin: 0 auto 20px;
+        }
+
+        button {
+            background: #ff4d4d;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px 2px;
+            font-weight: bold;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        button:hover {
+            background: #d90429;
+            transform: translateY(-1px);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin: 7px 0;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            font: inherit;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid #ff4d4d;
+            border-color: #ff4d4d;
+        }
+
+        /* =====================================================
+   GRIDS & CARDS
+===================================================== */
+        .gallery,
+        .programs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .card,
+        .program {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.25s, box-shadow 0.25s;
+            margin-bottom: 10px;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .card img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card h3,
+        .program h3 {
+            margin: 10px 0 8px;
+            color: #1a1a24;
+            font-size: 1.15rem;
+            border-left: 4px solid #ff4d4d;
+            padding-left: 8px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 0.92rem;
+        }
+
+        .result {
+            color: #ff4d4d;
+            font-weight: bold;
+            margin-top: 12px;
+            word-break: break-word;
+            background: #fdfdfd;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #e2e8f0;
+            min-height: 38px;
+            font-size: 0.93rem;
+        }
+
+        /* =====================================================
+   TABLES
+===================================================== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #1a1a24;
+            color: #ff4d4d;
+            font-size: 0.95rem;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #fdf2f2;
+        }
+
+        tbody tr:hover {
+            background: #ffe5e5;
+        }
+
+        /* =====================================================
+   WIDGETS & ANIMATION CONTAINERS
+===================================================== */
+        #artGrid {
+            display: grid;
+            gap: 6px;
+            margin-top: 12px;
+            padding: 8px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border: 1px dashed #cbd5e1;
+            overflow-x: auto;
+        }
+
+        .artTile {
+            background: #ffecec;
+            padding: 12px;
+            text-align: center;
+            font-size: 26px;
+            border-radius: 6px;
+        }
+
+        #artTrack {
+            height: 75px;
+            background: #e2e8f0;
+            position: relative;
+            overflow: hidden;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px dashed #94a3b8;
+        }
+
+        #movingArtwork {
+            position: absolute;
+            left: 0;
+            top: 10px;
+            font-size: 44px;
+            transition: left 0.02s linear;
+        }
+
+        #clock {
+            color: #ff4d4d;
+            font-size: 2.3rem;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            margin: 8px 0;
+        }
+
+        #fontText {
+            padding: 12px;
+            background: #fdf2f2;
+            border-left: 4px solid #ff4d4d;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: font-size 0.2s ease;
+        }
+
+        /* =====================================================
+   EXPERIMENT 7 - JQUERY STYLES
+===================================================== */
+        .budget-results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .budget-box {
+            background: #1a1a24;
+            color: white;
+            padding: 14px 10px;
+            text-align: center;
+            border-radius: 8px;
+            border-left: 4px solid #ff4d4d;
+            font-size: 0.95rem;
+        }
+
+        .art-item {
+            text-align: center;
+            background: #fdf2f2;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ffd1d1;
+        }
+
+        .art-image {
+            font-size: 42px;
+            margin-bottom: 6px;
+        }
+
+        #framePreview {
+            width: 180px;
+            height: 130px;
+            margin: 20px auto;
+            background: linear-gradient(45deg, #1a1a24, #ff4d4d);
+            border: 12px solid #8b5a2b;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* =====================================================
+   EXPERIMENT 8 - ANGULARJS LISTS & BUTTONS
+===================================================== */
+        .program ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 12px;
+        }
+
+        .program li {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #ff4d4d;
+            padding: 9px 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.92rem;
+        }
+
+        .program li button {
+            background: #dc3545;
+            color: white;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            margin: 0;
+            border-radius: 4px;
+        }
+
+        .program li button:hover {
+            background: #bd2130;
+        }
+
+        .welcome-msg {
+            color: #ff4d4d;
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 20px;
+            border: 2px dashed #ff4d4d;
+            border-radius: 8px;
+            background: #fff5f5;
+            margin-top: 10px;
+        }
+
+        /* =====================================================
+   FOOTER
+===================================================== */
+        footer {
+            border-top: 4px solid #ff4d4d;
+            border-bottom: none;
+            margin-top: 35px;
+        }
+
+        footer p {
+            margin: 5px;
+            font-size: 0.95rem;
+        }
+
+        /* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+        @media (max-width: 600px) {
+            nav a {
+                display: inline-block;
+                margin: 4px 6px;
+                font-size: 0.82rem;
+            }
+
+            .hero {
+                margin: 15px 3%;
+                padding: 40px 15px;
+            }
+
+            .hero h2 {
+                font-size: 24px;
+            }
+
+            section {
+                padding: 25px 4%;
+            }
+
+            .budget-results {
+                grid-template-columns: 1fr;
+            }
+
+            #clock {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+     HEADER
+===================================================== -->
+    <header>
+        <h1>FitPulse <span>Training Club</span></h1>
+        <p>Athletic Mastery, Sports Science &amp; Interactive Web Technology</p>
+        <p class="student-tag">Web Technology Lab &mdash; DHAMODHARAN R | URK24CS1253</p>
+    </header>
+
+    <!-- =====================================================
+     NAVIGATION
+===================================================== -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#gallery">Programs Gallery</a>
+        <a href="#artists">Master Coaches</a>
+        <a href="#exp5">Exp 5</a>
+        <a href="#exp6">Exp 6</a>
+        <a href="#exp7">Exp 7</a>
+        <a href="#exp8">Exp 8</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- =====================================================
+     HERO SECTION
+===================================================== -->
+    <section class="hero" id="home">
+        <h2>Welcome to <span>FitPulse Training Club</span></h2>
+        <p>Discover personalized strength protocols, athletic performance conditioning, jQuery modules, and AngularJS
+            applications.</p>
+        <button onclick="alert('Welcome to FitPulse Training Club! - Dhamodharan R | URK24CS1253')">Explore
+            Club</button>
+    </section>
+
+    <!-- =====================================================
+     ABOUT SECTION
+===================================================== -->
+    <section id="about">
+        <h2>About FitPulse</h2>
+        <div
+            style="background: white; padding: 25px; border-radius: 10px; max-width: 900px; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+            <p>
+                FitPulse Training Club is an advanced fitness and sports science facility uniting exercise biomechanics,
+                functional athletic movement, sports nutrition, and modern client portal web applications. We empower
+                members
+                of all fitness levels to achieve sustainable physical transformation through measurable, structured
+                programming.
+            </p>
+        </div>
+    </section>
+
+    <!-- =====================================================
+     PROGRAMS GALLERY
+===================================================== -->
+    <section id="gallery">
+        <h2>Our Featured Programs</h2>
+        <input type="text" id="searchArt" placeholder="Search training programs..."
+            style="max-width: 600px; margin: 0 auto 20px; display: block;">
+        <div class="gallery" id="galleryItems">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80"
+                    alt="Strength Training">
+                <h3>Hypertrophy &amp; Strength</h3>
+                <p>Targeted barbell overload and maximal muscle hypertrophy.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80"
+                    alt="HIIT Turf">
+                <h3>Functional Turf HIIT</h3>
+                <p>Sled pushes, kettlebell complexes, and high-intensity intervals.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=500&q=80"
+                    alt="Mobility Flow">
+                <h3>Athletic Mobility Flow</h3>
+                <p>Joint mobilization, yoga flows, and spine decompression.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?auto=format&fit=crop&w=500&q=80"
+                    alt="Powerlifting">
+                <h3>Powerlifting Peaking</h3>
+                <p>Competition squat, bench press, and deadlift development.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=500&q=80"
+                    alt="Cardio Base">
+                <h3>Aerobic Base Building</h3>
+                <p>Endurance running, rowing, and cardiovascular capacity.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=500&q=80"
+                    alt="Olympic Weightlifting">
+                <h3>Olympic Weightlifting</h3>
+                <p>Barbell snatch and clean-and-jerk velocity technique.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================
+     COACHES ROSTER TABLE
+===================================================== -->
+    <section id="artists">
+        <h2>Master Coaches Roster</h2>
+        <div style="max-width: 900px; margin: auto; overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coach Name</th>
+                        <th>Specialization Discipline</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Marcus Vance</td>
+                        <td>Powerlifting &amp; Hypertrophy</td>
+                    </tr>
+                    <tr>
+                        <td>Elena Rostova</td>
+                        <td>Olympic Lifting &amp; Mobility</td>
+                    </tr>
+                    <tr>
+                        <td>David Miller</td>
+                        <td>Athletic Speed &amp; Turf Conditioning</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- =====================================================
+     EXPERIMENT 5 - DOM ELEMENTS AND EVENTS
+===================================================== -->
+    <section id="exp5">
+        <h2>Experiment 5 &ndash; DOM Elements and Events</h2>
+        <div class="programs">
+
+            <!-- 1. Title Analyzer -->
+            <div class="program">
+                <h3>1. Workout Title Analyzer</h3>
+                <input id="sentence" placeholder="Enter fitness motivation titles">
+                <button onclick="findWords()">Find Words</button>
+                <p id="wordResult" class="result"></p>
+            </div>
+
+            <!-- 2. Area Calculator -->
+            <div class="program">
+                <h3>2. Gym Turf Area Calculator</h3>
+                <input type="number" id="frameWidth" placeholder="Width in metres" step="any">
+                <input type="number" id="frameHeight" placeholder="Height in metres" step="any">
+                <button onclick="calculateFrame()">Calculate Area</button>
+                <p id="frameResult" class="result"></p>
+            </div>
+
+            <!-- 3. Random Grid -->
+            <div class="program">
+                <h3>3. Nutrition Grid Generator</h3>
+                <input type="number" id="rows" placeholder="Number of rows" min="1" max="8">
+                <input type="number" id="cols" placeholder="Number of columns" min="1" max="8">
+                <button onclick="growArt()">Display Nutrition</button>
+                <div id="artGrid"></div>
+            </div>
+
+            <!-- 4. Price Converter -->
+            <div class="program">
+                <h3>4. Membership Fee Converter</h3>
+                <input type="number" id="amount" placeholder="Enter amount">
+                <select id="currencyFrom">
+                    <option value="INR">INR (Indian Rupee)</option>
+                    <option value="USD">USD (US Dollar)</option>
+                </select>
+                <select id="currencyTo">
+                    <option value="USD">USD (US Dollar)</option>
+                    <option value="INR">INR (Indian Rupee)</option>
+                </select>
+                <button onclick="convertPrice()">Convert Price</button>
+                <p id="currencyResult" class="result"></p>
+            </div>
+
+            <!-- 5. Favorite Workout -->
+            <div class="program">
+                <h3>5. Favorite Workout Selection</h3>
+                <div id="favouriteArt" style="font-size:55px; text-align:center;">🏋️</div>
+                <button onclick="selectArtwork()" style="width: 100%;">Choose Workout</button>
+                <p id="favouriteResult" class="result"></p>
+            </div>
+
+            <!-- 6. Apparel Order -->
+            <div class="program">
+                <h3>6. Gym Apparel Order</h3>
+                <select id="printSize">
+                    <option value="100">Standard Shaker - Rs.100</option>
+                    <option value="200">Lifting Straps - Rs.200</option>
+                    <option value="400">Athletic Belt - Rs.400</option>
+                </select>
+                <input type="number" id="printQty" value="1" min="1">
+                <button onclick="calculatePrint()">Calculate Bill</button>
+                <p id="printResult" class="result"></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =====================================================
+     EXPERIMENT 6 - TIMER FUNCTIONS AND ARRAYS
+===================================================== -->
+    <section id="exp6">
+        <h2>Experiment 6 &ndash; Timer Functions and Arrays</h2>
+        <div class="programs">
+
+            <!-- 1. Digital Clock -->
+            <div class="program" style="text-align: center;">
+                <h3>1. Gym Digital Clock</h3>
+                <h2 id="clock">00:00:00</h2>
+                <p id="clockDate" style="color: #666; font-weight: bold;"></p>
+            </div>
+
+            <!-- 2. Background Changer -->
+            <div class="program">
+                <h3>2. Dynamic Studio Lighting</h3>
+                <button onclick="changeBackground()">Change Colour</button>
+                <button onclick="stopBackground()" style="background:#555;">Stop Timer</button>
+                <p id="bgResult" class="result"></p>
+            </div>
+
+            <!-- 3. Font Size -->
+            <div class="program">
+                <h3>3. Interactive Coach Tips</h3>
+                <p id="fontText" onmouseover="incSize()" onmouseout="decSize()">
+                    &raquo; Move the mouse over this coaching tip to enlarge text.
+                </p>
+            </div>
+
+            <!-- 4. Moving Runner -->
+            <div class="program">
+                <h3>4. Sprint Runner Track</h3>
+                <div id="artTrack">
+                    <div id="movingArtwork">&#127939;</div>
+                </div>
+                <button onclick="startArt()">Move</button>
+                <button onclick="stopArt()" style="background:#555;">Stop</button>
+                <button onclick="resetArt()" style="background:#222;">Reset</button>
+            </div>
+
+            <!-- 5. Member Array -->
+            <div class="program">
+                <h3>5. Member Array of Objects</h3>
+                <button onclick="showArtists()">Display Members</button>
+                <p id="artistResult" class="result"></p>
+            </div>
+
+            <!-- 6. Date Object -->
+            <div class="program">
+                <h3>6. Date Object Inspector</h3>
+                <button onclick="showDate()">Display Date</button>
+                <p id="dateResult" class="result"></p>
+            </div>
+
+            <!-- 7. Class and Object -->
+            <div class="program">
+                <h3>7. Athlete Class and Object</h3>
+                <button onclick="showArtwork()">Display Athlete</button>
+                <p id="classResult" class="result"></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =====================================================
+     EXPERIMENT 7 - JQUERY APPLICATIONS
+===================================================== -->
+    <section id="exp7">
+        <h2>Experiment 7 &ndash; jQuery Applications</h2>
+        <div class="programs">
+
+            <!-- 1. BUDGET CALCULATOR -->
+            <div class="program">
+                <h3>1. Club Event Budget Calculator</h3>
+                <input type="number" id="budgetAmount" placeholder="Total Budget (Rs.)">
+                <input type="number" id="displayPercent" value="50" placeholder="Display %">
+                <input type="number" id="decorationPercent" value="20" placeholder="Decoration %">
+                <input type="number" id="marketingPercent" value="20" placeholder="Marketing %">
+                <input type="number" id="otherPercent" value="10" placeholder="Other %">
+                <button id="budgetBtn" style="width: 100%;">Calculate Budget</button>
+                <div id="budgetOutput" class="budget-results">
+                    <div class="budget-box">Display<br>Rs.0</div>
+                    <div class="budget-box">Decoration<br>Rs.0</div>
+                    <div class="budget-box">Marketing<br>Rs.0</div>
+                    <div class="budget-box">Other<br>Rs.0</div>
+                </div>
+                <p id="budgetMessage" class="result"></p>
+            </div>
+
+            <!-- 2. MERCHANDISE SHOP -->
+            <div class="program">
+                <h3>2. Merchandise Pro Shop</h3>
+                <div class="gallery" style="grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px;">
+                    <div class="art-item">
+                        <div class="art-image">🎽</div>
+                        <b>FitPulse Singlet</b>
+                        <p style="color:#ff4d4d; font-weight:bold;">Rs.300</p>
+                    </div>
+                    <div class="art-item">
+                        <div class="art-image">🏋️</div>
+                        <b>Athlete Poster</b>
+                        <p style="color:#ff4d4d; font-weight:bold;">Rs.200</p>
+                    </div>
+                    <div class="art-item">
+                        <div class="art-image">🏃</div>
+                        <b>Turf Sprint Art</b>
+                        <p style="color:#ff4d4d; font-weight:bold;">Rs.250</p>
+                    </div>
+                    <div class="art-item">
+                        <div class="art-image">🥤</div>
+                        <b>Custom Shaker</b>
+                        <p style="color:#ff4d4d; font-weight:bold;">Rs.500</p>
+                    </div>
+                </div>
+
+                <input type="number" id="abstractQty" value="0" min="0" placeholder="Singlet Quantity (Rs.300)">
+                <input type="number" id="portraitQty" value="0" min="0" placeholder="Poster Quantity (Rs.200)">
+                <input type="number" id="landscapeQty" value="0" min="0" placeholder="Sprint Art Quantity (Rs.250)">
+                <input type="number" id="natureQty" value="0" min="0" placeholder="Shaker Quantity (Rs.500)">
+                <button id="printOrderBtn" style="width: 100%; margin-top: 5px;">Place Order</button>
+                <p id="shopBill" class="result">Total Price: Rs.0</p>
+            </div>
+
+            <!-- 3. FRAME / BADGE CUSTOMIZATION -->
+            <div class="program">
+                <h3>3. Locker Badge Customisation</h3>
+                <div id="framePreview"></div>
+                <button id="frameColorBtn">Change Frame Colour</button>
+                <button id="artColorBtn">Change Inner Background</button>
+                <button id="frameSizeBtn">Change Frame Size</button>
+                <button id="frameResetBtn" style="background:#222;">Reset</button>
+                <p id="frameMessage" class="result"></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =====================================================
+     EXPERIMENT 8 - ANGULARJS DIRECTIVES & CONTROLLERS
+===================================================== -->
+    <section id="exp8" ng-app="fitPulseApp">
+        <h2>Experiment 8 &ndash; AngularJS Directives &amp; Controllers</h2>
+        <div class="programs">
+
+            <!-- 1. WELCOME MESSAGE CONTROLLER -->
+            <div class="program" ng-controller="WelcomeCtrl">
+                <h3>1. FitPulse Welcome Message</h3>
+                <p style="color:#666; font-size:0.9rem;">Two-way data binding with controller initialization:</p>
+                <div class="welcome-msg">{{message}}</div>
+                <input type="text" ng-model="message" placeholder="Type custom club greeting..."
+                    style="margin-top: 15px;">
+            </div>
+
+            <!-- 2. MEMBER REVIEW BOX CONTROLLER -->
+            <div class="program" ng-controller="ReviewController">
+                <h3>2. Member Workout Review Box</h3>
+                <textarea ng-model="review" placeholder="Share your workout or coaching experience..."></textarea>
+                <button ng-click="addReview()" style="width: 100%;">Post Review</button>
+
+                <h4 style="margin: 15px 0 8px; color: #1a1a24;">Member Reviews ({{reviews.length}})</h4>
+                <ul>
+                    <li ng-repeat="r in reviews track by $index">
+                        <span>{{r}}</span>
+                        <button ng-click="deleteReview($index)">Delete</button>
+                    </li>
+                </ul>
+                <p ng-show="reviews.length === 0" style="color: #888; font-style: italic; font-size: 0.9rem;">No reviews
+                    posted yet.</p>
+            </div>
+
+            <!-- 3. TRAINING PRICE CALCULATOR CONTROLLER -->
+            <div class="program" ng-controller="PriceController">
+                <h3>3. Personal Training Price Calculator</h3>
+                <label style="font-size:0.88rem; font-weight:bold;">Session Rate (Rs.):</label>
+                <input type="number" ng-model="price" placeholder="e.g. 1500">
+
+                <label style="font-size:0.88rem; font-weight:bold;">Number of Sessions:</label>
+                <input type="number" ng-model="quantity" placeholder="e.g. 10">
+
+                <button ng-click="calculate()" style="width: 100%; margin-top: 8px;">Calculate Package Price</button>
+                <p class="result">Total Price: Rs.{{result || 0}}</p>
+            </div>
+
+            <!-- 4. WORKOUT TASK LIST CONTROLLER -->
+            <div class="program" ng-controller="WorkoutTaskController">
+                <h3>4. Daily Workout Task Checklist</h3>
+                <input type="text" ng-model="task" placeholder="Enter workout task (e.g. Barbell Squats 4x8)...">
+                <button ng-click="addTask()" style="width: 100%;">Add Task</button>
+
+                <h4 style="margin: 15px 0 8px; color: #1a1a24;">Routine Tasks ({{tasks.length}})</h4>
+                <ul>
+                    <li ng-repeat="t in tasks track by $index">
+                        <span>&#10004; {{t}}</span>
+                        <button ng-click="removeTask($index)">Remove</button>
+                    </li>
+                </ul>
+                <p ng-show="tasks.length === 0" style="color: #888; font-style: italic; font-size: 0.9rem;">All workout
+                    tasks completed!</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =====================================================
+     CONTACT FORM
+===================================================== -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <div class="program" style="max-width: 650px; margin: auto;">
+            <form id="contactForm">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="email" id="email" placeholder="Your Email" required>
+                <input type="tel" id="phone" placeholder="Phone Number">
+                <select id="art">
+                    <option value="">Select Training Program</option>
+                    <option>Hypertrophy &amp; Strength</option>
+                    <option>Functional Turf HIIT</option>
+                    <option>Athletic Mobility Flow</option>
+                    <option>Powerlifting Peaking</option>
+                </select>
+                <textarea id="message" placeholder="Your Message / Health Goals"></textarea>
+                <button type="submit" style="width: 100%;">Submit Message</button>
+                <p id="formResult" class="result"></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- =====================================================
+     FOOTER
+===================================================== -->
+    <footer>
+        <p>FitPulse Training Club &bull; Web Technology Lab</p>
+        <p>Done by <strong>DHAMODHARAN R | URK24CS1253</strong></p>
+        <p>&copy; 2026 All Rights Reserved</p>
+    </footer>
+
+    <!-- =====================================================
+     SCRIPTS: JAVASCRIPT, JQUERY & ANGULARJS
+===================================================== -->
+    <script>
+        /* ================= EXPERIMENT 5 - JAVASCRIPT ================= */
+        // 1. Workout Title Analyzer
+        function findWords() {
+            let sentence = document.getElementById("sentence").value;
+            if (!sentence.trim()) {
+                document.getElementById("wordResult").innerHTML = "Enter workout titles.";
+                return;
+            }
+            let words = sentence.trim().split(/\s+/);
+            let shortest = words[0];
+            let longest = words[0];
+            for (let word of words) {
+                let clean = word.replace(/[.,!?;:()]/g, "");
+                if (clean.length < shortest.replace(/[.,!?;:()]/g, "").length) shortest = clean;
+                if (clean.length > longest.replace(/[.,!?;:()]/g, "").length) longest = clean;
+            }
+            document.getElementById("wordResult").innerHTML =
+                "Shortest: " + shortest + "<br>Longest: " + longest;
+        }
+
+        // 2. Turf Frame Area Calculator
+        function calculateFrame() {
+            let w = Number(document.getElementById("frameWidth").value);
+            let h = Number(document.getElementById("frameHeight").value);
+            if (w <= 0 || h <= 0) {
+                document.getElementById("frameResult").innerHTML = "Enter valid dimensions.";
+                return;
+            }
+            document.getElementById("frameResult").innerHTML = "Frame Area: " + (w * h).toFixed(2) + " square metres";
+        }
+
+        // 3. Nutrition Grid Generator
+        function growArt() {
+            let r = Number(document.getElementById("rows").value);
+            let c = Number(document.getElementById("cols").value);
+            let grid = document.getElementById("artGrid");
+            if (r < 1 || c < 1 || r * c > 100) {
+                grid.innerHTML = "Enter valid rows and columns.";
+                return;
+            }
+            grid.innerHTML = "";
+            grid.style.gridTemplateColumns = `repeat(${c}, 1fr)`;
+            let pictures = ["🥑", "🥗", "🥩", "🍗", "🍎", "🍌"];
+            for (let i = 0; i < r * c; i++) {
+                let tile = document.createElement("div");
+                tile.className = "artTile";
+                tile.innerHTML = pictures[Math.floor(Math.random() * pictures.length)];
+                grid.appendChild(tile);
+            }
+        }
+
+        // 4. Membership Fee Converter
+        function convertPrice() {
+            let amount = Number(document.getElementById("amount").value);
+            let from = document.getElementById("currencyFrom").value;
+            let to = document.getElementById("currencyTo").value;
+            if (amount < 0 || !Number.isFinite(amount)) {
+                document.getElementById("currencyResult").innerHTML = "Enter a valid price.";
+                return;
+            }
+            let result = amount;
+            if (from !== to) {
+                result = from === "INR" ? amount * 0.015 : amount * 67.12;
+            }
+            document.getElementById("currencyResult").innerHTML = "Converted Price: " + result.toFixed(2) + " " + to;
+        }
+
+        // 5. Favorite Workout Selection
+        function selectArtwork() {
+            let icons = ["🏋️", "🏃", "🧘", "🥊", "🚴"];
+            let names = ["Powerlifting Bench", "40m Turf Sprint", "Spine Mobility Flow", "Boxing Conditioning", "Endurance Cycling"];
+            let index = Math.floor(Math.random() * icons.length);
+            document.getElementById("favouriteArt").innerHTML = icons[index];
+            document.getElementById("favouriteResult").innerHTML = "Your favorite workout: " + names[index];
+        }
+
+        // 6. Apparel Order
+        function calculatePrint() {
+            let price = Number(document.getElementById("printSize").value);
+            let qty = Number(document.getElementById("printQty").value);
+            if (qty < 1 || !Number.isInteger(qty)) {
+                document.getElementById("printResult").innerHTML = "Enter a valid quantity.";
+                return;
+            }
+            let total = price * qty;
+            document.getElementById("printResult").innerHTML = "Gear Cost: Rs." + total.toFixed(2);
+        }
+
+        // Gallery search & contact form
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("searchArt").addEventListener("keyup", function () {
+                let value = this.value.toLowerCase();
+                document.querySelectorAll("#galleryItems .card").forEach(function (card) {
+                    card.style.display = card.innerText.toLowerCase().includes(value) ? "" : "none";
+                });
+            });
+
+            document.getElementById("contactForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                document.getElementById("formResult").innerHTML =
+                    "Thank you, " + document.getElementById("name").value + "! Your message has been submitted.";
+            });
+        });
+
+        /* ================= EXPERIMENT 6 - TIMER AND ARRAYS ================= */
+        // 1. Digital Clock
+        function displayClock() {
+            let now = new Date();
+            let h = String(now.getHours()).padStart(2, "0");
+            let m = String(now.getMinutes()).padStart(2, "0");
+            let s = String(now.getSeconds()).padStart(2, "0");
+            document.getElementById("clock").innerHTML = h + ":" + m + ":" + s;
+            document.getElementById("clockDate").innerHTML = now.toDateString();
+        }
+        displayClock();
+        setInterval(displayClock, 1000);
+
+        // 2. Background Colour Changer
+        function changeBackground() {
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256);
+            document.body.style.backgroundColor = `rgb(${r},${g},${b})`;
+            document.getElementById("bgResult").innerHTML = `RGB(${r}, ${g}, ${b})`;
+        }
+        let bgTimer = setInterval(changeBackground, 30000);
+
+        function stopBackground() {
+            clearInterval(bgTimer);
+            document.getElementById("bgResult").innerHTML = "Timer stopped.";
+        }
+
+        // 3. Font Size Events
+        function incSize() {
+            document.getElementById("fontText").style.fontSize = "22px";
+        }
+        function decSize() {
+            document.getElementById("fontText").style.fontSize = "16px";
+        }
+
+        // 4. Moving Runner
+        let artPosition = 0;
+        let artTimer;
+        function moveArtwork() {
+            const trackWidth = document.getElementById("artTrack").clientWidth - 50;
+            if (artPosition < trackWidth) {
+                artPosition += 2;
+                document.getElementById("movingArtwork").style.left = artPosition + "px";
+                artTimer = setTimeout(moveArtwork, 20);
+            }
+        }
+        function startArt() {
+            clearTimeout(artTimer);
+            moveArtwork();
+        }
+        function stopArt() {
+            clearTimeout(artTimer);
+        }
+        function resetArt() {
+            clearTimeout(artTimer);
+            artPosition = 0;
+            document.getElementById("movingArtwork").style.left = "0px";
+        }
+
+        // 5. Member Array of Objects
+        let athletes = [
+            { name: "Dhamodharan R", regno: "URK24CS1253", year: 2006 },
+            { name: "John Miller", regno: "URK24CS1201", year: 1999 },
+            { name: "David Vance", regno: "URK24CS1202", year: 2002 }
+        ];
+
+        function showArtists() {
+            let output = "";
+            athletes.forEach(function (a) {
+                output += "<strong>" + a.name + "</strong> (" + a.regno + ") &mdash; Year: " + a.year + "<br>";
+            });
+            document.getElementById("artistResult").innerHTML = output;
+        }
+
+        // 6. Date Object
+        function showDate() {
+            let d = new Date();
+            document.getElementById("dateResult").innerHTML =
+                "Date: " + d.getDate() + "<br>Month: " + (d.getMonth() + 1) + "<br>Year: " + d.getFullYear() +
+                "<br>Hours: " + d.getHours() + "<br>Minutes: " + d.getMinutes() + "<br>Seconds: " + d.getSeconds();
+        }
+
+        // 7. Class and Object
+        class FitProgram {
+            constructor(name, coach) {
+                this.name = name;
+                this.coach = coach;
+            }
+            display() {
+                return "Program: <strong>" + this.name + "</strong> mentored by Coach <strong>" + this.coach + "</strong> (Enrolled by Dhamodharan R - URK24CS1253)";
+            }
+        }
+
+        function showArtwork() {
+            let program = new FitProgram("Olympic Barbell Peaking", "Elena Rostova");
+            document.getElementById("classResult").innerHTML = program.display();
+        }
+
+        /* ================= EXPERIMENT 7 - JQUERY ================= */
+        $(document).ready(function () {
+            // 1. Exhibition / Event Budget
+            $("#budgetBtn").click(function () {
+                let amount = Number($("#budgetAmount").val());
+                let percentages = [
+                    Number($("#displayPercent").val()),
+                    Number($("#decorationPercent").val()),
+                    Number($("#marketingPercent").val()),
+                    Number($("#otherPercent").val())
+                ];
+                let totalPercent = percentages.reduce((a, b) => a + b, 0);
+
+                if (amount <= 0 || percentages.some(p => p < 0 || p > 100) || totalPercent !== 100) {
+                    alert("Enter a valid budget and percentages totaling 100%.");
+                    return;
+                }
+
+                let values = percentages.map(p => (amount * p / 100));
+                $("#budgetOutput").html(
+                    `<div class="budget-box">Display<br>Rs.${values[0].toFixed(2)}</div>
+             <div class="budget-box">Decoration<br>Rs.${values[1].toFixed(2)}</div>
+             <div class="budget-box">Marketing<br>Rs.${values[2].toFixed(2)}</div>
+             <div class="budget-box">Other<br>Rs.${values[3].toFixed(2)}</div>`
+                );
+                $("#budgetMessage").text("Event budget calculated successfully!");
+            });
+
+            // 2. Merchandise Pro Shop
+            $("#printOrderBtn").click(function () {
+                let quantities = [
+                    Number($("#abstractQty").val()),
+                    Number($("#portraitQty").val()),
+                    Number($("#landscapeQty").val()),
+                    Number($("#natureQty").val())
+                ];
+                if (quantities.some(q => q < 0 || !Number.isInteger(q))) {
+                    alert("Enter valid quantities.");
+                    return;
+                }
+                let total = quantities[0] * 300 + quantities[1] * 200 + quantities[2] * 250 + quantities[3] * 500;
+                $("#shopBill").text("Total Price: Rs." + total.toFixed(2));
+            });
+
+            // 3. Badge Frame Customisation
+            $("#frameColorBtn").click(function () {
+                let colors = ["#ff4d4d", "#0056b3", "#28a745", "#ff8800", "#7659b5"];
+                let color = colors[Math.floor(Math.random() * colors.length)];
+                $("#framePreview").css("border-color", color);
+                $("#frameMessage").text("Frame colour changed!");
+            });
+
+            $("#artColorBtn").click(function () {
+                let colors = ["#ffecec", "#e6f2ff", "#e9ffe9", "#fff3e6"];
+                let color = colors[Math.floor(Math.random() * colors.length)];
+                $("#framePreview").css("background", color);
+                $("#frameMessage").text("Badge background colour changed!");
+            });
+
+            $("#frameSizeBtn").click(function () {
+                $("#framePreview").css({ "width": "230px", "height": "170px" });
+                $("#frameMessage").text("Frame size increased!");
+            });
+
+            $("#frameResetBtn").click(function () {
+                $("#framePreview").css({
+                    "width": "180px",
+                    "height": "130px",
+                    "border-color": "#8b5a2b",
+                    "background": "linear-gradient(45deg, #1a1a24, #ff4d4d)"
+                });
+                $("#frameMessage").text("Original frame design restored!");
+            });
+        });
+
+        /* ================= EXPERIMENT 8 - ANGULARJS ================= */
+        // Define AngularJS Application Module
+        var fitPulseApp = angular.module("fitPulseApp", []);
+
+        // 1. Welcome Message Controller
+        fitPulseApp.controller("WelcomeCtrl", function ($scope) {
+            $scope.message = "Welcome to FitPulse Training Club!";
+        });
+
+        // 2. Member Review Controller
+        fitPulseApp.controller("ReviewController", function ($scope) {
+            $scope.reviews = [
+                "The progressive overload strength program transformed my barbell squat form! - Dhamodharan R",
+                "Functional turf HIIT conditioning pushes endurance beyond limits."
+            ];
+            $scope.addReview = function () {
+                if ($scope.review && $scope.review.trim()) {
+                    $scope.reviews.push($scope.review.trim());
+                    $scope.review = "";
+                }
+            };
+            $scope.deleteReview = function (index) {
+                $scope.reviews.splice(index, 1);
+            };
+        });
+
+        // 3. Personal Training Price Calculator Controller
+        fitPulseApp.controller("PriceController", function ($scope) {
+            $scope.price = 1500;
+            $scope.quantity = 10;
+            $scope.result = 15000;
+            $scope.calculate = function () {
+                $scope.result = (Number($scope.price) || 0) * (Number($scope.quantity) || 0);
+            };
+        });
+
+        // 4. Daily Workout Routine Task Controller
+        fitPulseApp.controller("WorkoutTaskController", function ($scope) {
+            $scope.tasks = [
+                "Barbell Deadlift - 4 sets x 6 reps (Heavy Overload)",
+                "Overhead Press - 3 sets x 8 reps",
+                "40-Meter Sled Push Intervals (6 rounds)",
+                "Post-Workout Mobility & Fascia Roll"
+            ];
+            $scope.addTask = function () {
+                if ($scope.task && $scope.task.trim()) {
+                    $scope.tasks.push($scope.task.trim());
+                    $scope.task = "";
+                }
+            };
+            $scope.removeTask = function (index) {
+                $scope.tasks.splice(index, 1);
+            };
+        });
+    </script>
+
+</body>
+
+</html>
