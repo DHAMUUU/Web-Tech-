@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPulse | JavaScript DOM Elements & Events Lab</title>
+    <style>
+        /* =====================================================
+   RESET & BASE STYLES
+===================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #ff4d4d;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        a:hover {
+            color: #d90429;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* =====================================================
+   HEADER
+===================================================== */
+        header {
+            background: #1a1a24;
+            color: white;
+            text-align: center;
+            padding: 30px 15px;
+            border-radius: 0 0 25px 25px;
+            border-bottom: 4px solid #ff4d4d;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-badge {
+            display: inline-block;
+            background: #ff4d4d;
+            color: white;
+            font-weight: 900;
+            font-size: 1.3rem;
+            padding: 6px 16px;
+            border-radius: 20px;
+            letter-spacing: 2px;
+        }
+
+        header h1 {
+            margin: 5px 0 0;
+            color: #ffffff;
+            font-size: clamp(2rem, 5vw, 2.6rem);
+            letter-spacing: 1px;
+        }
+
+        header h1 span {
+            color: #ff4d4d;
+        }
+
+        header p {
+            margin: 4px 0 0;
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+
+        .student-tag {
+            color: #ffcc00 !important;
+            font-weight: bold;
+            margin-top: 6px !important;
+        }
+
+        /* =====================================================
+   NAVIGATION
+===================================================== */
+        nav {
+            background: #232533;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 12px;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        nav a {
+            color: white;
+            padding: 9px 16px;
+            border-radius: 4px;
+            font-size: 0.92rem;
+            font-weight: bold;
+            transition: all 0.25s ease;
+        }
+
+        nav a:hover,
+        nav a:focus {
+            background: #ff4d4d;
+            color: white;
+        }
+
+        /* =====================================================
+   HERO BANNER
+===================================================== */
+        .hero {
+            max-width: 1200px;
+            margin: 25px auto 20px;
+            padding: 45px 30px;
+            background: linear-gradient(rgba(26, 26, 36, 0.85), rgba(26, 26, 36, 0.85)),
+                url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=85') center/cover no-repeat;
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .hero h2 {
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .hero h2 span {
+            color: #ff4d4d;
+        }
+
+        .hero p {
+            max-width: 700px;
+            color: #e0e0e0;
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+        }
+
+        .btn,
+        button {
+            display: inline-block;
+            background: #ff4d4d;
+            color: white;
+            border: 0;
+            padding: 11px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: background 0.25s, transform 0.15s;
+        }
+
+        .btn:hover,
+        button:hover {
+            background: #d90429;
+            transform: translateY(-1px);
+        }
+
+        /* =====================================================
+   MAIN TWO-COLUMN LAYOUT
+===================================================== */
+        .layout {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        aside {
+            width: 25%;
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+        }
+
+        aside h3 {
+            margin-top: 0;
+            color: #1a1a24;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #ff4d4d;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        aside ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        aside li {
+            margin: 10px 0;
+        }
+
+        aside li a {
+            display: block;
+            color: #444;
+            padding: 5px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        aside li a:hover {
+            color: #ff4d4d;
+            background: #ffecec;
+        }
+
+        .tag-cloud {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #ffe8e8;
+            color: #d90429;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 3px;
+        }
+
+        main {
+            width: 75%;
+            min-width: 0;
+        }
+
+        section {
+            margin-bottom: 30px;
+            scroll-margin-top: 70px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            color: #1a1a24;
+            border-bottom: 3px solid #ff4d4d;
+            padding-bottom: 8px;
+            margin: 0 0 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* =====================================================
+   PROGRAMS GRID
+===================================================== */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 16px;
+        }
+
+        .card h3 {
+            margin: 0 0 8px;
+            color: #1a1a24;
+            font-size: 1.15rem;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 8px 0;
+        }
+
+        .intensity {
+            color: #ff4d4d;
+            font-weight: bold;
+            font-size: 0.88rem;
+        }
+
+        /* =====================================================
+   TABLE STYLING
+===================================================== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 11px 13px;
+            border: 1px solid #ddd;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: #1a1a24;
+            color: #ff4d4d;
+        }
+
+        tbody tr:nth-child(odd) {
+            background: #ffffff;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #fff5f5;
+        }
+
+        tbody tr:hover {
+            background: #ffe5e5;
+        }
+
+        /* =====================================================
+   GALLERY
+===================================================== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .gallery img {
+            height: 140px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: transform 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.03);
+        }
+
+        /* =====================================================
+   FORMS & INPUTS
+===================================================== */
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #1a1a24;
+            font-weight: bold;
+            font-size: 0.92rem;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            background: white;
+            color: #222;
+            font: inherit;
+            font-size: 0.93rem;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid #ff4d4d;
+            border-color: #ff4d4d;
+        }
+
+        input:required:valid {
+            border-color: green;
+        }
+
+        input:required:invalid:not(:placeholder-shown) {
+            border-color: #ff4d4d;
+        }
+
+        input[type=radio],
+        input[type=checkbox],
+        input[type=color],
+        input[type=range] {
+            width: auto;
+        }
+
+        input[type=radio],
+        input[type=checkbox] {
+            accent-color: #ff4d4d;
+        }
+
+        input[type=color] {
+            height: 38px;
+            padding: 2px;
+            vertical-align: middle;
+        }
+
+        input[type=file] {
+            padding: 7px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .inline-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .inline-options label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 16px;
+        }
+
+        .output {
+            margin-top: 12px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fdfdfd;
+            color: #333;
+            min-height: 42px;
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
+
+        /* =====================================================
+   CSS3 & JS DEMO BOXES
+===================================================== */
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .demo {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 18px;
+            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.05);
+        }
+
+        .demo h3 {
+            margin-top: 0;
+            color: #1a1a24;
+            font-size: 1.15rem;
+            border-left: 4px solid #ff4d4d;
+            padding-left: 8px;
+            margin-bottom: 12px;
+        }
+
+        .demo p {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .rounded-demo {
+            padding: 18px;
+            background: #1a1a24;
+            color: #ff4d4d;
+            border-radius: 15px 50px 30px 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .border-demo {
+            border: 12px solid transparent;
+            border-image: linear-gradient(45deg, #ff4d4d, #1a1a24, #d90429) 1;
+            padding: 14px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .multi-bg {
+            min-height: 120px;
+            border-radius: 6px;
+            background-image: radial-gradient(circle at 85% 20%, rgba(255, 77, 77, 0.5) 0 40px, transparent 41px),
+                linear-gradient(135deg, #1a1a24, #2b2d42);
+            display: grid;
+            place-items: center;
+            color: white;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .sibling-demo .itemName {
+            display: inline-block;
+            color: #ff4d4d;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .sibling-demo .itemImg {
+            width: 100%;
+            max-width: 220px;
+            height: 110px;
+            object-fit: cover;
+            opacity: 0.35;
+            transition: 0.3s;
+            border-radius: 5px;
+            margin-top: 8px;
+        }
+
+        .sibling-demo .itemName:hover+.itemImg {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        /* =====================================================
+   JAVASCRIPT EXPERIMENT SPECIFIC STYLES
+===================================================== */
+        #fruitGarden {
+            display: grid;
+            gap: 8px;
+            margin-top: 14px;
+            overflow-x: auto;
+            padding: 8px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        #fruitGarden img {
+            width: 58px;
+            height: 58px;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .coin-container {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .coin {
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            margin: 8px auto;
+            display: block;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+        }
+
+        small.hint {
+            color: #777;
+            display: block;
+            margin-top: 6px;
+            font-size: 0.82rem;
+        }
+
+        /* =====================================================
+   FOOTER
+===================================================== */
+        footer {
+            background: #1a1a24;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            margin-top: 35px;
+            border-top: 4px solid #ff4d4d;
+        }
+
+        footer p {
+            margin: 5px;
+            font-size: 0.95rem;
+        }
+
+        /* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+        @media (max-width: 900px) {
+            .layout {
+                display: block;
+            }
+
+            .layout aside,
+            .layout main {
+                width: 100%;
+            }
+
+            aside {
+                margin-bottom: 25px;
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .layout {
+                padding: 0 10px;
+            }
+
+            .grid,
+            .demo-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            nav {
+                position: static;
+            }
+
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.88rem;
+            }
+
+            .hero {
+                margin: 12px;
+                padding: 25px 18px;
+            }
+
+            .hero h2 {
+                font-size: 1.6rem;
+            }
+
+            .section-card {
+                padding: 16px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+                font-size: 0.88rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+     HEADER
+===================================================== -->
+    <header>
+        <div class="brand">
+            <div class="logo-badge">FITPULSE</div>
+            <div>
+                <h1>FitPulse <span>Training Club</span></h1>
+                <p>Transform Your Body &bull; Master Biomechanics &bull; Live Healthy</p>
+                <p class="student-tag">Web Technology Lab &mdash; DIVAKARAN M | URK24CS1200</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- =====================================================
+     NAVIGATION
+===================================================== -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#programs">Programs</a>
+        <a href="#coaches">Coaches</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+        <a href="#csslab">CSS Lab</a>
+        <a href="#javascriptlab">JavaScript Lab</a>
+    </nav>
+
+    <!-- =====================================================
+     HERO SECTION
+===================================================== -->
+    <div class="hero" id="home">
+        <h2>Train With <span>Purpose &amp; Science</span>.</h2>
+        <p>
+            Discover athletic conditioning, progressive hypertrophy programming, interactive member tools,
+            and hands-on JavaScript DOM web technology implementations.
+        </p>
+        <a class="btn" href="#javascriptlab">Launch JavaScript Lab</a>
+    </div>
+
+    <!-- =====================================================
+     MAIN CONTAINER & ASIDE SIDEBAR
+===================================================== -->
+    <div class="layout">
+
+        <aside>
+            <h3>Explore FitPulse</h3>
+            <ul>
+                <li><a href="#programs">Training Programs</a></li>
+                <li><a href="#coaches">Coaches Roster</a></li>
+                <li><a href="#pillars">Training Pillars</a></li>
+                <li><a href="#gallery">Club Gallery</a></li>
+                <li><a href="#media">Audio &amp; Video</a></li>
+                <li><a href="#contact">Member Enrollment</a></li>
+                <li><a href="#csslab">CSS3 Showcase (Ex 4)</a></li>
+                <li><a href="#javascriptlab">JavaScript DOM Lab (Ex 5)</a></li>
+            </ul>
+
+            <div class="tag-cloud">
+                <span class="tag">HTML5</span>
+                <span class="tag">CSS3</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">DOM</span>
+                <span class="tag">Events</span>
+                <span class="tag">Math.random()</span>
+            </div>
+        </aside>
+
+        <main>
+
+            <!-- =====================================================
+     1. PROGRAMS SECTION
+===================================================== -->
+            <section id="programs">
+                <h2 class="section-title">Featured Training Programs</h2>
+                <div class="grid">
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80"
+                            alt="Strength Training">
+                        <div class="card-body">
+                            <h3>Hypertrophy &amp; Strength</h3>
+                            <span class="intensity">★ 4.9/5 &bull; 5 Days/Week</span>
+                            <p>Heavy compound barbell lifts, progressive overload, and high-tension muscle building.</p>
+                            <span class="tag">Barbell</span>
+                            <span class="tag">Strength</span>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80"
+                            alt="Functional HIIT">
+                        <div class="card-body">
+                            <h3>Functional Turf HIIT</h3>
+                            <span class="intensity">★ 4.8/5 &bull; High Intensity</span>
+                            <p>Sled drives, kettlebell snatches, plyometrics, and heart-rate conditioning.</p>
+                            <span class="tag">Conditioning</span>
+                            <span class="tag">Stamina</span>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80"
+                            alt="Mobility Yoga">
+                        <div class="card-body">
+                            <h3>Athletic Mobility &amp; Flow</h3>
+                            <span class="intensity">★ 4.9/5 &bull; Recovery</span>
+                            <p>Joint mobilization, spine decompression, yoga flows, and active recovery protocols.</p>
+                            <span class="tag">Flexibility</span>
+                            <span class="tag">Injury Prevention</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- =====================================================
+     2. COACHES ROSTER TABLE
+===================================================== -->
+            <section id="coaches" class="section-card">
+                <h2 class="section-title">Master Coaches Roster</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Coach Name</th>
+                            <th>Specialization</th>
+                            <th>Experience</th>
+                            <th>Certification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Marcus Vance</td>
+                            <td>Powerlifting &amp; Hypertrophy</td>
+                            <td>10+ Years</td>
+                            <td>CSCS, USAW-L2</td>
+                        </tr>
+                        <tr>
+                            <td>Elena Rostova</td>
+                            <td>Olympic Weightlifting</td>
+                            <td>8 Years</td>
+                            <td>NASM-CPT, FMS</td>
+                        </tr>
+                        <tr>
+                            <td>David Miller</td>
+                            <td>Athletic Speed &amp; Turf HIIT</td>
+                            <td>6 Years</td>
+                            <td>ACE Master Trainer</td>
+                        </tr>
+                        <tr>
+                            <td>Sarah Jenkins</td>
+                            <td>Nutrition &amp; Bio-mechanics</td>
+                            <td>9 Years</td>
+                            <td>ISSA Elite, CISSN</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- =====================================================
+     3. TRAINING PILLARS & CATEGORIES
+===================================================== -->
+            <section id="pillars" class="section-card">
+                <h2 class="section-title">Club Training Pillars</h2>
+                <div class="form-grid">
+                    <div>
+                        <h3>Core Disciplines</h3>
+                        <ul>
+                            <li>Progressive Barbell Overload</li>
+                            <li>Functional Anaerobic Conditioning</li>
+                            <li>Scientific Posture Alignment</li>
+                            <li>Targeted Macronutrient Fueling</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Member Milestones</h3>
+                        <ol>
+                            <li>100 kg Form-Perfect Squat Check</li>
+                            <li>Sub-7-Minute 2000m Row Challenge</li>
+                            <li>Level 3 Mobility Assessment Cleared</li>
+                            <li>FitPulse Elite Member Induction</li>
+                        </ol>
+                    </div>
+                </div>
+                <dl style="margin-top: 15px;">
+                    <dt><strong>RPE (Rate of Perceived Exertion)</strong></dt>
+                    <dd>A 1-to-10 subjective scale quantifying intensity and repetitions in reserve.</dd>
+                    <dt><strong>Progressive Overload</strong></dt>
+                    <dd>The gradual elevation of resistance, volume, or frequency over training cycles.</dd>
+                </dl>
+            </section>
+
+            <!-- =====================================================
+     4. GALLERY
+===================================================== -->
+            <section id="gallery">
+                <h2 class="section-title">FitPulse Facility Gallery</h2>
+                <div class="gallery">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80"
+                        alt="Gym training floor">
+                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80"
+                        alt="Free weights rack">
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80"
+                        alt="Cardio and turf track">
+                </div>
+            </section>
+
+            <!-- =====================================================
+     5. AUDIO & VIDEO
+===================================================== -->
+            <section id="media" class="section-card">
+                <h2 class="section-title">Audio &amp; Video Media</h2>
+                <p>Sample multimedia training guide. (Place <b>fitness-audio.mp3</b> and <b>fitness-video.mp4</b> in the
+                    same directory).</p>
+
+                <label for="audio">Workout Beats (Sample Audio):</label>
+                <audio id="audio" controls style="width:100%;">
+                    <source src="fitness-audio.mp3" type="audio/mpeg">
+                    Your browser does not support audio playback.
+                </audio>
+
+                <label for="video" style="margin-top: 15px;">Exercise Form Demo (Sample Video):</label>
+                <video id="video" controls width="100%" style="max-height:280px; border-radius:8px;">
+                    <source src="fitness-video.mp4" type="video/mp4">
+                    Your browser does not support video playback.
+                </video>
+            </section>
+
+            <!-- =====================================================
+     6. CONTACT / REGISTRATION FORM
+===================================================== -->
+            <section id="contact" class="section-card">
+                <h2 class="section-title">Member Enrollment Form</h2>
+                <form id="contactForm">
+                    <div class="form-grid">
+                        <div>
+                            <label for="fullname">Full Name *</label>
+                            <input id="fullname" type="text" placeholder="Enter your name" required
+                                pattern="[A-Za-z ]{2,}">
+                        </div>
+                        <div>
+                            <label for="email">Email Address *</label>
+                            <input id="email" type="email" placeholder="name@fitpulse.com" required>
+                        </div>
+                        <div>
+                            <label for="password">Password *</label>
+                            <input id="password" type="password" placeholder="Minimum 6 characters" minlength="6"
+                                required>
+                        </div>
+                        <div>
+                            <label for="age">Age</label>
+                            <input id="age" type="number" min="15" max="90" placeholder="Your age">
+                        </div>
+                        <div>
+                            <label for="date">Start Date</label>
+                            <input id="date" type="date">
+                        </div>
+                        <div>
+                            <label for="favcolor">Member Locker Color</label>
+                            <input id="favcolor" type="color" value="#ff4d4d">
+                        </div>
+                        <div>
+                            <label for="genre">Preferred Program</label>
+                            <select id="genre">
+                                <option>Hypertrophy &amp; Strength</option>
+                                <option>Functional Turf HIIT</option>
+                                <option>Athletic Mobility &amp; Flow</option>
+                                <option>Powerlifting Specialized</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="photo">Upload Fitness Clearance</label>
+                            <input id="photo" type="file" accept="image/*,application/pdf">
+                        </div>
+                    </div>
+
+                    <label>Preferred Contact Mode</label>
+                    <div class="inline-options">
+                        <label><input type="radio" name="contact" value="Email" checked> Email</label>
+                        <label><input type="radio" name="contact" value="Phone"> Phone / WhatsApp</label>
+                    </div>
+
+                    <label>Interests &amp; Amenities</label>
+                    <div class="inline-options">
+                        <label><input type="checkbox" value="Sauna" checked> Infrared Sauna</label>
+                        <label><input type="checkbox" value="Nutrition"> Diet Coaching</label>
+                        <label><input type="checkbox" value="Workshops"> Form Workshops</label>
+                    </div>
+
+                    <label for="ratingRange">Fitness Commitment Level: <output id="rangeValue">7</output>/10</label>
+                    <input id="ratingRange" type="range" min="1" max="10" value="7">
+
+                    <label for="message">Medical Conditions / Goals</label>
+                    <textarea id="message"
+                        placeholder="Describe any past injuries, target weight, or goals..."></textarea>
+
+                    <p style="margin-top: 15px;">
+                        <button type="submit">Submit Enrollment</button>
+                    </p>
+                    <div id="contactResult" class="output" aria-live="polite">Please fill in the required fields and
+                        click Submit.</div>
+                </form>
+            </section>
+
+            <!-- =====================================================
+     7. CSS3 DEMONSTRATIONS (EXERCISE 4)
+===================================================== -->
+            <section id="csslab" class="section-card">
+                <h2 class="section-title">Experiment 4 &ndash; Advanced CSS3</h2>
+                <div class="demo-grid">
+                    <div class="demo">
+                        <h3>1. Rounded Corners</h3>
+                        <div class="rounded-demo">FitPulse &mdash; Asymmetrical border-radius demo</div>
+                    </div>
+
+                    <div class="demo">
+                        <h3>2. Border Image Style</h3>
+                        <div class="border-demo">Gradient Frame using border-image</div>
+                    </div>
+
+                    <div class="demo">
+                        <h3>3 &amp; 4. Multiple Backgrounds &amp; Sizing</h3>
+                        <div class="multi-bg">FITPULSE ATHLETICS</div>
+                        <small class="hint">Layered radial highlight + linear slate gradient.</small>
+                    </div>
+
+                    <div class="demo">
+                        <h3>5. Input Pseudo-classes</h3>
+                        <label for="cssEmail">Interactive Email State Test:</label>
+                        <input id="cssEmail" type="email" placeholder="name@domain.com" required>
+                        <small class="hint">Focus (red), required (valid/invalid feedback) applied.</small>
+                    </div>
+
+                    <div class="demo sibling-demo">
+                        <h3>6. Adjacent Sibling (+) Hover</h3>
+                        <span class="itemName">Hover over this workout program</span>
+                        <img class="itemImg"
+                            src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80"
+                            alt="Strength demo">
+                    </div>
+
+                    <div class="demo">
+                        <h3>7. nth-child Zebra Striping</h3>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Odd Row (1)</td>
+                                    <td>Strength Assessment</td>
+                                </tr>
+                                <tr>
+                                    <td>Even Row (2)</td>
+                                    <td>Cardiovascular Vo2 Max</td>
+                                </tr>
+                                <tr>
+                                    <td>Odd Row (3)</td>
+                                    <td>Lactate Threshold Run</td>
+                                </tr>
+                                <tr>
+                                    <td>Even Row (4)</td>
+                                    <td>Mobility Screen Pass</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================
+     8. JAVASCRIPT LAB (EXERCISE 5 - DOM & EVENTS)
+===================================================== -->
+            <section id="javascriptlab" class="section-card">
+                <h2 class="section-title">Experiment 5 &ndash; JavaScript DOM Elements &amp; Events</h2>
+                <p class="hint">These 6 activities demonstrate DOM selection, event listeners, user input processing,
+                    dynamic mathematical formulas, and real-time DOM element manipulation.</p>
+
+                <div class="demo-grid" style="margin-top: 15px;">
+
+                    <!-- ACTIVITY 1: SHORTEST & LONGEST WORD -->
+                    <div class="demo">
+                        <h3>1. Shortest &amp; Longest Word</h3>
+                        <label for="wordText">Enter a Fitness Sentence / Motivation Quote:</label>
+                        <input id="wordText" value="Consistent strength training builds athletic longevity">
+                        <button type="button" id="wordBtn" style="margin-top: 10px;">Find Words</button>
+                        <div class="output" id="wordResult">Result will appear here.</div>
+                        <small class="hint">Splits text into words, sanitizes punctuation, and checks string
+                            lengths.</small>
+                    </div>
+
+                    <!-- ACTIVITY 2: BMI CALCULATOR -->
+                    <div class="demo">
+                        <h3>2. BMI Calculator</h3>
+                        <label for="weight">Weight (kg):</label>
+                        <input id="weight" type="number" min="1" step="any" placeholder="e.g. 70">
+                        <label for="height">Height (metres):</label>
+                        <input id="height" type="number" min="0.1" step="any" placeholder="e.g. 1.75">
+                        <button type="button" id="bmiBtn" style="margin-top: 10px;">Calculate BMI</button>
+                        <div class="output">
+                            BMI Score: <strong id="score">&mdash;</strong><br>
+                            Fitness Category: <strong id="type">&mdash;</strong>
+                        </div>
+                        <small class="hint">Formula: BMI = Weight(kg) / (Height(m))²</small>
+                    </div>
+
+                    <!-- ACTIVITY 3: FRUIT FARM / NUTRITION GRID -->
+                    <div class="demo">
+                        <h3>3. Fruit Farm (Nutrition Grid)</h3>
+                        <div class="form-grid">
+                            <div>
+                                <label for="rows">Rows (1-8):</label>
+                                <input id="rows" type="number" min="1" max="8" value="3">
+                            </div>
+                            <div>
+                                <label for="columns">Columns (1-8):</label>
+                                <input id="columns" type="number" min="1" max="8" value="4">
+                            </div>
+                        </div>
+                        <button type="button" id="gardenBtn" style="margin-top: 10px;">Generate Fruit Garden</button>
+                        <div id="gardenMessage" class="output">Your fruit garden will appear below.</div>
+                        <div id="fruitGarden"></div>
+                        <small class="hint">Dynamically generates image nodes via document.createElement('img').</small>
+                    </div>
+
+                    <!-- ACTIVITY 4: CURRENCY CONVERTER -->
+                    <div class="demo">
+                        <h3>4. Currency Converter (Membership Dues)</h3>
+                        <label for="currencyData">Amount:</label>
+                        <input id="currencyData" type="number" min="0" step="any" placeholder="Enter amount">
+                        <div class="form-grid">
+                            <div>
+                                <label for="from">From:</label>
+                                <select id="from">
+                                    <option value="INR">Indian Rupee (INR)</option>
+                                    <option value="USD">US Dollar (USD)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="to">To:</label>
+                                <select id="to">
+                                    <option value="USD">US Dollar (USD)</option>
+                                    <option value="INR">Indian Rupee (INR)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" id="convertBtn" style="margin-top: 10px;">Convert Currency</button>
+                        <div id="answer" class="output">Converted amount will appear here.</div>
+                        <small class="hint">Conversion factors: 1 INR = 0.015 USD; 1 USD = 67.12 INR.</small>
+                    </div>
+
+                    <!-- ACTIVITY 5: HEADS OR TAILS COIN FLIP -->
+                    <div class="demo">
+                        <h3>5. Heads or Tails? (Workout Decision Flip)</h3>
+                        <div class="coin-container">
+                            <!-- Inline SVG Coin Graphic -->
+                            <svg class="coin" id="coinSvg" viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="54" fill="#ffcc00" stroke="#d4a000" stroke-width="6" />
+                                <circle cx="60" cy="60" r="44" fill="#ffd533" />
+                                <text id="coinSvgText" x="60" y="68" font-family="Arial, sans-serif" font-size="20"
+                                    font-weight="bold" fill="#1a1a24" text-anchor="middle">COIN</text>
+                            </svg>
+                        </div>
+                        <button type="button" id="flip" style="width: 100%;">Flip Coin!</button>
+                        <div class="output">
+                            Heads Total: <strong id="num_heads">0</strong><br>
+                            Tails Total: <strong id="num_tails">0</strong><br>
+                            <span id="coinResult">Press Flip to start.</span>
+                        </div>
+                        <small class="hint">Uses Math.random() &lt; 0.5 with dynamic running counter updates.</small>
+                    </div>
+
+                    <!-- ACTIVITY 6: BIRTHDAY CAKE ORDER FORM -->
+                    <div class="demo">
+                        <h3>6. Birthday Cake Order Form (Celebration Bakery)</h3>
+                        <label for="small">Number of &frac12; kg cakes (&#8377;100 each):</label>
+                        <input id="small" type="number" min="0" value="0">
+
+                        <label for="medium">Number of 1 kg cakes (&#8377;200 each):</label>
+                        <input id="medium" type="number" min="0" value="0">
+
+                        <label for="large">Number of 2 kg cakes (&#8377;400 each):</label>
+                        <input id="large" type="number" min="0" value="0">
+
+                        <label>Tip Percentage:</label>
+                        <div class="inline-options">
+                            <label><input type="radio" name="tip" value="10"> 10%</label>
+                            <label><input type="radio" name="tip" value="15" checked> 15%</label>
+                            <label><input type="radio" name="tip" value="20"> 20%</label>
+                        </div>
+
+                        <button type="button" id="orderBtn" style="margin-top: 10px;">Calculate Cake Order</button>
+                        <div id="price" class="output">Total cost will appear here.</div>
+                        <small class="hint">Calculates item subtotals + 9% tax + tip percentage.</small>
+                    </div>
+
+                </div>
+
+                <!-- DOM SELECTION & EVENTS DEMONSTRATION -->
+                <div class="demo" style="margin-top: 18px;">
+                    <h3>DOM Element Selection &amp; Event Manipulation</h3>
+                    <p id="domIntro" class="intro">This paragraph is selected using a CSS selector (.intro).</p>
+                    <button type="button" id="domBtn" style="margin-top: 10px;">Change Text using DOM</button>
+                    <div class="output" id="demo">Click the button above to update this content.</div>
+                    <small class="hint">Demonstrates getElementById(), getElementsByTagName(), getElementsByClassName(),
+                        querySelectorAll() and addEventListener().</small>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- =====================================================
+     FOOTER
+===================================================== -->
+    <footer>
+        <p>&copy; 2026 FitPulse Training Club &bull; Web Technology Lab &ndash; Experiments 1 to 5</p>
+        <p>Done by <strong>Divakaran M | URK24CS1200</strong> &bull; Designed with HTML5, CSS3 and JavaScript DOM Events
+        </p>
+    </footer>
+
+    <!-- =====================================================
+     JAVASCRIPT LOGIC
+===================================================== -->
+    <script>
+        // =====================================================
+        // Experiment 2: Range Input & Contact Form Submission
+        // =====================================================
+        const ratingRange = document.getElementById("ratingRange");
+        ratingRange.addEventListener("input", function () {
+            document.getElementById("rangeValue").textContent = this.value;
+        });
+
+        document.getElementById("contactForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const name = document.getElementById("fullname").value;
+            document.getElementById("contactResult").textContent =
+                "Thank you, " + name + "! Your FitPulse enrollment form has been submitted successfully.";
+        });
+
+        // =====================================================
+        // Activity 5.1: Shortest and Longest Word Finder
+        // =====================================================
+        document.getElementById("wordBtn").addEventListener("click", function () {
+            const sentence = document.getElementById("wordText").value.trim();
+            const result = document.getElementById("wordResult");
+
+            if (!sentence) {
+                result.textContent = "Please enter a sentence.";
+                return;
+            }
+
+            const words = sentence.split(/\s+/);
+            let shortest = words[0];
+            let longest = words[0];
+
+            words.forEach(function (word) {
+                const clean = word.replace(/[.,!?;:()]/g, "");
+                if (clean.length > 0) {
+                    if (clean.length < shortest.replace(/[.,!?;:()]/g, "").length) {
+                        shortest = clean;
+                    }
+                    if (clean.length > longest.replace(/[.,!?;:()]/g, "").length) {
+                        longest = clean;
+                    }
+                }
+            });
+
+            result.innerHTML = "<strong>Shortest Word:</strong> " + shortest +
+                " (" + shortest.length + " chars) &nbsp;|&nbsp; " +
+                "<strong>Longest Word:</strong> " + longest +
+                " (" + longest.length + " chars)";
+        });
+
+        // =====================================================
+        // Activity 5.2: BMI Calculator
+        // Formula: BMI = Weight(kg) / (Height(m))^2
+        // =====================================================
+        document.getElementById("bmiBtn").addEventListener("click", function () {
+            const weight = parseFloat(document.getElementById("weight").value);
+            const height = parseFloat(document.getElementById("height").value);
+
+            if (!(weight > 0) || !(height > 0)) {
+                alert("Please enter valid positive values for weight (kg) and height (metres).");
+                return;
+            }
+
+            const bmi = weight / (height * height);
+            let bodyType = "";
+
+            if (bmi < 18.5) {
+                bodyType = "Underweight";
+            } else if (bmi < 25) {
+                bodyType = "Normal (Healthy)";
+            } else if (bmi <= 30) {
+                bodyType = "Overweight";
+            } else {
+                bodyType = "Obese";
+            }
+
+            document.getElementById("score").textContent = bmi.toFixed(2);
+            document.getElementById("type").textContent = bodyType;
+        });
+
+        // =====================================================
+        // Activity 5.3: Fruit Farm / Nutrition Grid Generator
+        // =====================================================
+        document.getElementById("gardenBtn").addEventListener("click", function () {
+            const rows = Number(document.getElementById("rows").value);
+            const columns = Number(document.getElementById("columns").value);
+            const garden = document.getElementById("fruitGarden");
+
+            if (!Number.isInteger(rows) || !Number.isInteger(columns) ||
+                rows < 1 || columns < 1 || rows > 8 || columns > 8) {
+                document.getElementById("gardenMessage").textContent = "Please enter rows and columns between 1 and 8.";
+                return;
+            }
+
+            garden.innerHTML = "";
+            garden.style.gridTemplateColumns = "repeat(" + columns + ", 58px)";
+
+            const fruits = [
+                "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=120&h=120&fit=crop", // Apple
+                "https://images.unsplash.com/photo-1547514701-42782101795e?w=120&h=120&fit=crop", // Orange
+                "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=120&h=120&fit=crop", // Strawberry
+                "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=120&h=120&fit=crop"  // Banana
+            ];
+
+            for (let i = 0; i < rows * columns; i++) {
+                const fruit = document.createElement("img");
+                fruit.src = fruits[Math.floor(Math.random() * fruits.length)];
+                fruit.alt = "Healthy fruit";
+                fruit.title = "Nutrition item " + (i + 1);
+                garden.appendChild(fruit);
+            }
+
+            document.getElementById("gardenMessage").textContent =
+                rows + " rows × " + columns + " columns (" + (rows * columns) + " fruits) planted successfully.";
+        });
+
+        // =====================================================
+        // Activity 5.4: Currency Converter
+        // Rates: 1 INR = 0.015 USD; 1 USD = 67.12 INR
+        // =====================================================
+        document.getElementById("convertBtn").addEventListener("click", function () {
+            const amount = parseFloat(document.getElementById("currencyData").value);
+            const from = document.getElementById("from").value;
+            const to = document.getElementById("to").value;
+
+            if (!(amount >= 0)) {
+                document.getElementById("answer").textContent = "Please enter a valid non-negative amount.";
+                return;
+            }
+
+            let converted = amount;
+            if (from === "INR" && to === "USD") {
+                converted = amount * 0.015;
+            } else if (from === "USD" && to === "INR") {
+                converted = amount * 67.12;
+            }
+
+            document.getElementById("answer").innerHTML =
+                "<strong>Converted Amount:</strong> " + converted.toFixed(2) + " " + to +
+                " <small style='color:#666;'>(" + amount + " " + from + ")</small>";
+        });
+
+        // =====================================================
+        // Activity 5.5: Heads or Tails Coin Flip
+        // =====================================================
+        let heads = 0;
+        let tails = 0;
+
+        document.getElementById("flip").addEventListener("click", function () {
+            const isHeads = Math.random() < 0.5;
+
+            if (isHeads) {
+                heads++;
+            } else {
+                tails++;
+            }
+
+            document.getElementById("num_heads").textContent = heads;
+            document.getElementById("num_tails").textContent = tails;
+            document.getElementById("coinResult").innerHTML =
+                "Last Flip: <strong style='color:" + (isHeads ? "#d4a000" : "#ff4d4d") + ";'>" +
+                (isHeads ? "HEADS" : "TAILS") + "</strong>";
+
+            // Update SVG Coin
+            const coinSvg = document.getElementById("coinSvg");
+            if (isHeads) {
+                coinSvg.innerHTML = `
+            <circle cx="60" cy="60" r="54" fill="#ffcc00" stroke="#d4a000" stroke-width="6"/>
+            <circle cx="60" cy="60" r="44" fill="#ffd533"/>
+            <text x="60" y="68" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a1a24" text-anchor="middle">HEADS</text>
+        `;
+            } else {
+                coinSvg.innerHTML = `
+            <circle cx="60" cy="60" r="54" fill="#ff4d4d" stroke="#b80710" stroke-width="6"/>
+            <circle cx="60" cy="60" r="44" fill="#ff6b6b"/>
+            <text x="60" y="68" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">TAILS</text>
+        `;
+            }
+        });
+
+        // =====================================================
+        // Activity 5.6: Birthday Cake Order Form Calculator
+        // Prices: 1/2 kg = 100, 1 kg = 200, 2 kg = 400
+        // Subtotal + 9% Tax + Selected Tip Rate (10%, 15%, 20%)
+        // =====================================================
+        document.getElementById("orderBtn").addEventListener("click", function () {
+            const small = Math.max(0, Number(document.getElementById("small").value) || 0);
+            const medium = Math.max(0, Number(document.getElementById("medium").value) || 0);
+            const large = Math.max(0, Number(document.getElementById("large").value) || 0);
+
+            const subtotal = (small * 100) + (medium * 200) + (large * 400);
+            const afterTax = subtotal * 1.09;
+
+            const selectedTip = document.querySelector('input[name="tip"]:checked');
+            const tipRate = selectedTip ? Number(selectedTip.value) / 100 : 0.15;
+            const total = afterTax * (1 + tipRate);
+
+            document.getElementById("price").innerHTML =
+                "<strong>Subtotal:</strong> &#8377;" + subtotal.toFixed(2) + "<br>" +
+                "<strong>After 9% Tax:</strong> &#8377;" + afterTax.toFixed(2) + "<br>" +
+                "<strong>Selected Tip:</strong> " + (tipRate * 100) + "%<br>" +
+                "<span style='color:#d90429; font-size:1.1rem; font-weight:bold;'>Total Payable: &#8377;" + total.toFixed(2) + "</span>";
+        });
+
+        // =====================================================
+        // DOM Selection Demonstration & Click Event
+        // =====================================================
+        document.getElementById("domBtn").addEventListener("click", function () {
+            const introById = document.getElementById("domIntro");
+            const paragraphs = document.getElementsByTagName("p");
+            const introByClass = document.getElementsByClassName("intro");
+            const selected = document.querySelectorAll("p.intro");
+
+            introById.textContent = "DOM updated successfully! Total <p> tags: " + paragraphs.length +
+                ", .intro class elements: " + introByClass.length + ", querySelector matches: " + selected.length + ".";
+
+            document.getElementById("demo").innerHTML =
+                "<em>Success! The button click event updated this element dynamically using document.getElementById() and textContent/innerHTML.</em>";
+        });
+    </script>
+
+</body>
+
+</html>
