@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPulse - Interactive Member Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #1a1a24;
+            color: white;
+            text-align: center;
+            padding: 35px;
+            border-bottom: 4px solid #ff4d4d;
+        }
+
+        header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            color: #ff4d4d;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 18px;
+            color: #e0e0e0;
+        }
+
+        nav {
+            background: #232533;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 15px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff4d4d;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        section {
+            padding: 50px 20px;
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1a1a24;
+            font-size: 30px;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        section h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #ff4d4d;
+            margin: 8px auto 0;
+            border-radius: 2px;
+        }
+
+        .hero {
+            background: #e9ecf0;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h2 {
+            font-size: 38px;
+            margin-bottom: 15px;
+            color: #111;
+        }
+
+        .hero p {
+            max-width: 800px;
+            margin: auto;
+            font-size: 17px;
+            color: #555;
+        }
+
+        .hero img {
+            width: 100%;
+            max-width: 900px;
+            height: 380px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-top: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 28px;
+            background: #ff4d4d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .button:hover {
+            background: #e03434;
+            transform: translateY(-2px);
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            width: 300px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card h3 {
+            margin: 12px 0 8px;
+            color: #1a1a24;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #1a1a24;
+            color: #ff4d4d;
+            font-size: 15px;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .lists {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .lists h3 {
+            color: #1a1a24;
+            margin-top: 15px;
+            border-left: 4px solid #ff4d4d;
+            padding-left: 8px;
+        }
+
+        ol,
+        ul,
+        dl {
+            margin: 15px 0 15px 30px;
+        }
+
+        dt {
+            font-weight: bold;
+            color: #1a1a24;
+            margin-top: 8px;
+        }
+
+        dd {
+            margin-left: 20px;
+            color: #555;
+        }
+
+        .media {
+            text-align: center;
+        }
+
+        .media img {
+            width: 100%;
+            max-width: 650px;
+            border-radius: 10px;
+            margin: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        audio,
+        video {
+            width: 90%;
+            max-width: 700px;
+            margin: 15px;
+            border-radius: 8px;
+        }
+
+        aside {
+            background: #ffe8e8;
+            padding: 25px;
+            margin: 20px;
+            border-left: 5px solid #ff4d4d;
+            border-radius: 5px;
+        }
+
+        aside h3 {
+            color: #d90429;
+            margin-bottom: 8px;
+        }
+
+        /* FORM STYLES */
+        form {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #1a1a24;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px;
+            margin-top: 5px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #ff4d4d;
+            box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 5px;
+            accent-color: #ff4d4d;
+        }
+
+        input[type="color"] {
+            width: 70px;
+            height: 45px;
+            padding: 2px;
+            cursor: pointer;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: #ff4d4d;
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .form-option {
+            margin-top: 8px;
+        }
+
+        .form-option label {
+            display: inline;
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        input[type="submit"],
+        input[type="reset"] {
+            padding: 12px 22px;
+            margin-top: 20px;
+            margin-right: 10px;
+            border: none;
+            background: #ff4d4d;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background: #d90429;
+        }
+
+        input[type="reset"] {
+            background: #6c757d;
+        }
+
+        input[type="reset"]:hover {
+            background: #495057;
+        }
+
+        .contact {
+            text-align: center;
+        }
+
+        .contact a {
+            color: #ff4d4d;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .contact a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #1a1a24;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 20px;
+            border-top: 4px solid #ff4d4d;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media(max-width:768px) {
+            .gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 100%;
+            }
+
+            .hero img {
+                height: 240px;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header id="home">
+        <h1>FitPulse Training Club</h1>
+        <p>Transform Your Body • Build Real Strength • Live Healthy</p>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#programs">Programs</a>
+        <a href="#trainers">Trainers</a>
+        <a href="#registration">Member Registration</a>
+        <a href="#contact">Contact</a>
+        <a href="https://www.bodybuilding.com/" target="_blank">Fitness Guide</a>
+    </nav>
+
+    <main>
+
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <h2>Welcome to FitPulse Training Club</h2>
+            <p>
+                Experience world-class strength equipment, certified personal coaching,
+                personalized athletic nutrition plans, and motivating fitness community.
+            </p>
+            <a href="#programs" class="button">
+                Explore Programs
+            </a>
+            <br><br>
+            <a href="#programs">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1000&q=80"
+                    alt="FitPulse Gym Training">
+            </a>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about">
+            <h2>About FitPulse</h2>
+            <article>
+                <p>
+                    Physical fitness is a transformative lifestyle that fosters discipline, stamina,
+                    mental clarity, and enduring strength. Our modern facilities feature state-of-the-art
+                    resistance machines, Olympic free-weights, high-intensity functional turf, and recovery zones.
+                </p>
+                <br>
+                <p>
+                    Whether you are beginning your journey or training for athletic competitions,
+                    FitPulse provides certified trainers and personalized routines to help you crush your goals.
+                </p>
+            </article>
+        </section>
+
+        <!-- PROGRAMS SECTION -->
+        <section id="programs">
+            <h2>Training Programs</h2>
+            <div class="gallery">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&q=80"
+                        alt="Strength Training">
+                    <h3>Strength & Hypertrophy</h3>
+                    <p>
+                        Master compound movements like squats, deadlifts, and bench presses to build dense muscle mass
+                        and raw power.
+                    </p>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&q=80"
+                        alt="HIIT & Cardio">
+                    <h3>HIIT & Cardio Endurance</h3>
+                    <p>
+                        Boost your stamina, torch calories, and enhance heart health with rapid high-intensity interval
+                        training.
+                    </p>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80"
+                        alt="Yoga & Mobility">
+                    <h3>Yoga & Flexibility</h3>
+                    <p>
+                        Improve joint mobility, alleviate chronic posture stiffness, and accelerate muscular recovery
+                        with guided yoga.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRAINERS SECTION -->
+        <section id="trainers">
+            <h2>Elite Certified Coaches</h2>
+            <div class="lists">
+                <table>
+                    <tr>
+                        <th>Coach Name</th>
+                        <th>Specialization</th>
+                        <th>Certification</th>
+                        <th>Experience</th>
+                    </tr>
+                    <tr>
+                        <td>Marcus Vance</td>
+                        <td>Olympic Weightlifting & Powerlifting</td>
+                        <td>CSCS (NSCA)</td>
+                        <td>9 Years</td>
+                    </tr>
+                    <tr>
+                        <td>Elena Rostova</td>
+                        <td>HIIT & Functional Conditioning</td>
+                        <td>ACE Certified Trainer</td>
+                        <td>6 Years</td>
+                    </tr>
+                    <tr>
+                        <td>David Chen</td>
+                        <td>Kinesiology & Injury Rehab</td>
+                        <td>NASM - CPT, CES</td>
+                        <td>8 Years</td>
+                    </tr>
+                    <tr>
+                        <td>Priya Sharma</td>
+                        <td>Hatha Yoga & Mindful Breathing</td>
+                        <td>RYT-500 Certified</td>
+                        <td>7 Years</td>
+                    </tr>
+                </table>
+
+                <br><br>
+                <h3>Structured Workout Splits</h3>
+                <ol>
+                    <li>Upper-Lower Split
+                        <ol>
+                            <li>Upper Body (Chest, Back, Arms)</li>
+                            <li>Lower Body (Quads, Hamstrings, Calves)</li>
+                            <li>Core Conditioning & Active Recovery</li>
+                        </ol>
+                    </li>
+                    <li>Push-Pull-Legs Routine
+                        <ol>
+                            <li>Push: Chest, Shoulders, Triceps</li>
+                            <li>Pull: Back, Rear Delts, Biceps</li>
+                        </ol>
+                    </li>
+                </ol>
+
+                <h3>Member Amenities</h3>
+                <ul>
+                    <li>Training Facilities
+                        <ul>
+                            <li>Olympic Lifting Platforms</li>
+                            <li>Cardio Theater & Treadmills</li>
+                        </ul>
+                    </li>
+                    <li>Recovery & Wellness
+                        <ul>
+                            <li>Finnish Dry Sauna</li>
+                            <li>Smoothie & Nutrition Bar</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>Key Fitness Terminology</h3>
+                <dl>
+                    <dt>Hypertrophy</dt>
+                    <dd>The enlargement of muscular tissue cells resulting from targeted resistance training.</dd>
+                    <dt>Repetition Maximum (1RM)</dt>
+                    <dd>The maximum amount of weight a person can lift for a single repetition of a given exercise.</dd>
+                    <dt>Caloric Deficit</dt>
+                    <dd>A nutritional state where fewer calories are consumed than expended, leading to fat loss.</dd>
+                </dl>
+            </div>
+        </section>
+
+        <!-- ASIDE -->
+        <aside>
+            <h3>Did You Know?</h3>
+            <p>
+                Drinking adequate water during intense workouts boosts muscle endurance by up to <b>15%</b>.
+                Muscles are composed of roughly 75% water, and even mild dehydration impairs power output and recovery
+                rate!
+            </p>
+        </aside>
+
+        <!-- MULTIMEDIA -->
+        <section class="media">
+            <h2>Training Media Hub</h2>
+            <p>
+                Click the image below to view our latest functional training sessions.
+            </p>
+            <a href="#programs">
+                <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&q=80"
+                    alt="Workout Motivation">
+            </a>
+            <h3>Workout Motivation Beat</h3>
+            <audio controls>
+                <source src="audio/workout-beat.mp3" type="audio/mpeg">
+                Your browser does not support audio.
+            </audio>
+            <h3>Exercise Form & Technique Video</h3>
+            <video controls>
+                <source src="video/training-demo.mp4" type="video/mp4">
+                Your browser does not support video.
+            </video>
+        </section>
+
+        <!-- FITNESS TRAINING MEMBER REGISTRATION FORM -->
+        <section id="registration">
+            <h2>Fitness Training Member Registration</h2>
+            <form action="#">
+                <label for="name">
+                    Member Name
+                </label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required minlength="3"
+                    maxlength="40">
+
+                <label for="email">
+                    Email Address
+                </label>
+                <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+
+                <label for="password">
+                    Create Password
+                </label>
+                <input type="password" id="password" name="password" placeholder="Create your member portal password"
+                    required minlength="6">
+
+                <label for="age">
+                    Age
+                </label>
+                <input type="number" id="age" name="age" placeholder="Enter your age" min="14" max="90" required>
+
+                <label for="dob">
+                    Date of Birth
+                </label>
+                <input type="date" id="dob" name="dob" required>
+
+                <label>
+                    Current Fitness Level
+                </label>
+                <div class="form-option">
+                    <input type="radio" id="beginner" name="fitnesslevel" value="Beginner" required>
+                    <label for="beginner">
+                        Beginner (0-6 months experience)
+                    </label>
+                </div>
+                <div class="form-option">
+                    <input type="radio" id="intermediate" name="fitnesslevel" value="Intermediate">
+                    <label for="intermediate">
+                        Intermediate (6 months - 2 years experience)
+                    </label>
+                </div>
+                <div class="form-option">
+                    <input type="radio" id="advanced" name="fitnesslevel" value="Advanced">
+                    <label for="advanced">
+                        Advanced / Athlete (2+ years experience)
+                    </label>
+                </div>
+
+                <label>
+                    Preferred Workout Types
+                </label>
+                <div class="form-option">
+                    <input type="checkbox" id="strength" name="workouttypes" value="Strength & Powerlifting">
+                    <label for="strength">
+                        Strength & Powerlifting
+                    </label>
+                </div>
+                <div class="form-option">
+                    <input type="checkbox" id="hiit" name="workouttypes" value="HIIT & Cardio">
+                    <label for="hiit">
+                        HIIT & Cardio
+                    </label>
+                </div>
+                <div class="form-option">
+                    <input type="checkbox" id="yoga" name="workouttypes" value="Yoga & Flexibility">
+                    <label for="yoga">
+                        Yoga & Flexibility
+                    </label>
+                </div>
+                <div class="form-option">
+                    <input type="checkbox" id="calisthenics" name="workouttypes" value="Calisthenics & Bodyweight">
+                    <label for="calisthenics">
+                        Calisthenics & Bodyweight
+                    </label>
+                </div>
+
+                <label for="membership">
+                    Preferred Membership Package
+                </label>
+                <select id="membership" name="membership" required>
+                    <option value="">
+                        Select Package
+                    </option>
+                    <option>Standard Gym Access (Monthly)</option>
+                    <option>Pro Strength & Cardio Pass (Quarterly)</option>
+                    <option>Elite All-Inclusive Annual Membership</option>
+                    <option>Personal 1-on-1 Coaching Package</option>
+                    <option>Weekend Warrior Pass</option>
+                    <option>Student Fitness Pass</option>
+                </select>
+
+                <label for="message">
+                    Fitness Goals / Medical Remarks
+                </label>
+                <textarea id="message" name="message"
+                    placeholder="Tell us about your fitness goals (fat loss, hypertrophy, etc.) or any prior injuries"
+                    required minlength="10" maxlength="250"></textarea>
+
+                <label for="color">
+                    Preferred Gym Locker / Jersey Color
+                </label>
+                <input type="color" id="color" name="color" value="#ff4d4d">
+
+                <label for="certificate">
+                    Upload Medical Fitness Certificate / ID Proof
+                </label>
+                <input type="file" id="certificate" name="certificate" accept="image/*,.pdf">
+
+                <label for="motivation">
+                    Weekly Commitment & Motivation Level (0 - 100%)
+                </label>
+                <input type="range" id="motivation" name="motivation" min="0" max="100" value="75">
+
+                <br>
+                <input type="submit" value="Register">
+                <input type="reset" value="Reset">
+            </form>
+        </section>
+
+        <!-- CONTACT INFORMATION -->
+        <section id="contact" class="contact">
+            <h2>Contact Information</h2>
+            <p>
+                Email :
+                <a href="mailto:fitpulsetraining@gmail.com">
+                    fitpulsetraining@gmail.com
+                </a>
+            </p>
+            <br>
+            <p>
+                Phone :
+                <a href="tel:+919876543210">
+                    +91 9876543210
+                </a>
+            </p>
+            <br>
+            <p>
+                Official Fitness Resource :
+                <a href="https://www.bodybuilding.com/" target="_blank">
+                    Bodybuilding.com Workout Database
+                </a>
+            </p>
+            <br>
+            <p>
+                <a href="#home">
+                    Back To Top ↑
+                </a>
+            </p>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>© 2026 FitPulse Training Club</p>
+            <br>
+            <p>Done By: DHAMODHARAN R</p>
+            <p>Register No: URK24CS1253</p>
+            <p>Exercise No.: 2</p>
+            <p>Title: Interactive Fitness Training Member Registration Form</p>
+        </footer>
+
+    </main>
+</body>
+
+</html>
